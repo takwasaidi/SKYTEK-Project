@@ -1,0 +1,27 @@
+<div class="container mt-4">
+  <h2>Liste des Salles</h2>
+  <a routerLink="/salle/new" class="btn btn-primary mb-3">Ajouter Salle</a>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Capacité</th>
+        <th>Tarif</th>
+        <th>Emplacement</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let salle of salles">
+        <td>{{ salle.nom }}</td>
+        <td>{{ salle.capacite }}</td>
+        <td>{{ salle.tarifHoraire }}</td>
+        <td>{{ salle.emplacement }}</td>
+        <td>
+          <a [routerLink]="['/salle/edit', salle.id]" class="btn btn-warning btn-sm">Modifier</a>
+          <button class="btn btn-danger btn-sm" (click)="deleteSalle(salle.id!)">Supprimer</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

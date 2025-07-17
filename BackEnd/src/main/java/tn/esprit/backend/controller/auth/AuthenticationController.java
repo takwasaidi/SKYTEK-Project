@@ -13,6 +13,7 @@ import tn.esprit.backend.dto.auth.RegisterRequest;
 import tn.esprit.backend.dto.auth.VerificationRequest;
 import tn.esprit.backend.entity.User;
 import tn.esprit.backend.repository.UserRepository;
+import tn.esprit.backend.service.AuthService;
 import tn.esprit.backend.service.JwtService;
 import tn.esprit.backend.service.UserService;
 
@@ -22,12 +23,12 @@ import java.io.IOException;
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
-    private final UserService userService;
+    private final AuthService authService;
     private final JwtService jwtService;
     private final UserRepository userRepository;
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthenticationRequest request) {
-        AuthenticationResponse response = userService.login(request);
+        AuthenticationResponse response = authService.login(request);
         return ResponseEntity.ok(response);
     }
     @PostMapping("/refresh-token")
@@ -35,12 +36,12 @@ public class AuthenticationController {
             HttpServletRequest request,
             HttpServletResponse response
     ) throws IOException {
-       userService.refreshToken(request,response);
+       authService.refreshToken(request,response);
     }
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
-     AuthenticationResponse response = userService.register(request);
+     AuthenticationResponse response = authService.register(request);
 
         return ResponseEntity.ok(response);
     }
@@ -53,7 +54,7 @@ public class AuthenticationController {
 //    }
 @PostMapping("/mfa/setup")
 public ResponseEntity<String> setupMfa(@RequestParam String email) {
-    String otpAuthUrl = userService.generateMfaSetup(email);
+    String otpAuthUrl = authService.generateMfaSetup(email);
     return ResponseEntity.ok(otpAuthUrl);
 }
 //    @PostMapping("/mfa/verify")
@@ -73,7 +74,7 @@ public ResponseEntity<String> setupMfa(@RequestParam String email) {
 public ResponseEntity<?> verifyCode(
         @RequestBody VerificationRequest verificationRequest
 ) {
-    return ResponseEntity.ok(userService.verifyCode(verificationRequest));
+    return ResponseEntity.ok(authService.verifyCode(verificationRequest));
 }
 
 

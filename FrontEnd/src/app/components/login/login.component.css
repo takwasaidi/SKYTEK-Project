@@ -46,7 +46,7 @@
 }
 
 .sub-text a {
-  color: #007c89;
+  color: #2487ce;
   text-decoration: none;
 }
 
@@ -78,7 +78,7 @@ input[type="password"] {
   background: none;
   border: none;
   font-size: 13px;
-  color: #007c89;
+  color: #2487ce;
   cursor: pointer;
 }
 
@@ -95,7 +95,7 @@ input[type="password"] {
 .login-btn {
   width: 100%;
   padding: 12px;
-  background-color: #007c89;
+  background-color: #2487ce;
   color: white;
   border: none;
    border-radius: 50px; 
@@ -106,7 +106,7 @@ input[type="password"] {
 }
 
 .login-btn:hover {
-  background-color: #005f6b;
+  background-color: #2487ce;
 }
 
 .links {
@@ -119,7 +119,7 @@ input[type="password"] {
 .links a {
   text-decoration: none;
   font-size: 14px;
-  color: #007c89;
+  color: #2487ce;
 }
 
 .links a:hover {
@@ -150,7 +150,7 @@ input[type="password"] {
   background: none;
   border: none;
   font-size: 16px;
-  color: #007c89;
+  color: #2487ce;
   cursor: pointer;
   
 }
@@ -188,7 +188,7 @@ input[type="password"] {
 }
 
 .mfa-section .login-btn {
-  background-color: #007c89;
+  background-color: #2487ce;
   color: white;
   padding: 10px 0;
   border: none;

@@ -28,6 +28,7 @@ export class AuthenticationService {
     return this.http.post<AuthenticationResponse>
     (`${this.baseUrl}/login`, authRequest);
   }
+  
    getMfaQrCode(email: string) {
   return this.http.post<{ secretImageUri: string }>(`${this.baseUrl}/mfa/setup`, { email });
   }
