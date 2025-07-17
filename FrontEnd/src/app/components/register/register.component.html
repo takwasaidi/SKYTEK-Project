@@ -1,0 +1,73 @@
+<div class="login-container">
+  <div class="login-card">
+    <!-- Gauche : Image -->
+    <div class="login-image">
+      <img src="assets/startup-village.png" alt="Inscription" />
+    </div>
+
+    <!-- Droite : Formulaire -->
+    <div class="login-form">
+      <h2>Créer un compte</h2>
+      <p class="sub-text">
+        Vous avez déjà un compte ? <a routerLink="/login">Se connecter</a>
+      </p>
+
+      <form (ngSubmit)="registerUser()">
+        <label for="firstname">Prénom</label>
+        <input
+          type="text"
+          id="firstname"
+          [(ngModel)]="registerRequest.firstname"
+          name="firstname"
+          required
+          placeholder="Entrez votre prénom"
+        />
+
+        <label for="lastname">Nom</label>
+        <input
+          type="text"
+          id="lastname"
+          [(ngModel)]="registerRequest.lastname"
+          name="lastname"
+          required
+          placeholder="Entrez votre nom"
+        />
+
+        <label for="phone">Téléphone</label>
+        <input
+          type="text"
+          id="phone"
+          [(ngModel)]="registerRequest.phone"
+          name="phone"
+          required
+          placeholder="Entrez votre numéro de téléphone"
+        />
+
+        <label for="email">Email</label>
+        <input
+          type="text"
+          id="email"
+          [(ngModel)]="registerRequest.email"
+          name="email"
+          required
+          placeholder="Entrez votre adresse email"
+        />
+
+        <label for="password">Mot de passe</label>
+        <div class="password-wrapper">
+          <input
+            type="password"
+            id="password"
+            [(ngModel)]="registerRequest.password"
+            name="password"
+            required
+            placeholder="Créez un mot de passe"
+          />
+          <button type="button" class="icon-btn" (click)="generateStrongPassword()">Générer</button>
+        </div>
+
+        <button type="submit" class="login-btn">S'inscrire</button>
+      </form>
+    </div>
+  </div>
+</div>

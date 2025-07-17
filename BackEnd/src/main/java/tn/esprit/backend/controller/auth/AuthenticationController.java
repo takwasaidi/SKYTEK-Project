@@ -1,0 +1,81 @@
+package tn.esprit.backend.controller.auth;
+
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import tn.esprit.backend.dto.auth.AuthenticationRequest;
+import tn.esprit.backend.dto.auth.AuthenticationResponse;
+import tn.esprit.backend.dto.auth.RegisterRequest;
+import tn.esprit.backend.dto.auth.VerificationRequest;
+import tn.esprit.backend.entity.User;
+import tn.esprit.backend.repository.UserRepository;
+import tn.esprit.backend.service.JwtService;
+import tn.esprit.backend.service.UserService;
+
+import java.io.IOException;
+
+@RestController
+@RequestMapping("/api/auth")
+@RequiredArgsConstructor
+public class AuthenticationController {
+    private final UserService userService;
+    private final JwtService jwtService;
+    private final UserRepository userRepository;
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody AuthenticationRequest request) {
+        AuthenticationResponse response = userService.login(request);
+        return ResponseEntity.ok(response);
+    }
+    @PostMapping("/refresh-token")
+    public void refreshToken(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws IOException {
+       userService.refreshToken(request,response);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
+     AuthenticationResponse response = userService.register(request);
+
+        return ResponseEntity.ok(response);
+    }
+
+//    @PostMapping("/verify")
+//    public ResponseEntity<?> verifyCode(
+//            @RequestBody VerificationRequest verificationRequest
+//    ) {
+//        return ResponseEntity.ok(userService.verifyCode(verificationRequest));
+//    }
+@PostMapping("/mfa/setup")
+public ResponseEntity<String> setupMfa(@RequestParam String email) {
+    String otpAuthUrl = userService.generateMfaSetup(email);
+    return ResponseEntity.ok(otpAuthUrl);
+}
+//    @PostMapping("/mfa/verify")
+//    public ResponseEntity<?> verifyMfa(@RequestBody VerificationRequest request) {
+//        boolean valid = userService.verifyMfaCode(request.getEmail(), request.getCode());
+//
+//        if (!valid) {
+//            return ResponseEntity.status(401).body("Code MFA invalide");
+//        }
+//
+//        // Le code est valide → retourne un JWT
+//        var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
+//        String token = jwtService.generateToken(user);
+//        return ResponseEntity.ok(AuthenticationResponse.builder().accessToken(token).build());
+//    }
+@PostMapping("/verify")
+public ResponseEntity<?> verifyCode(
+        @RequestBody VerificationRequest verificationRequest
+) {
+    return ResponseEntity.ok(userService.verifyCode(verificationRequest));
+}
+
+
+
+}

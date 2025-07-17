@@ -1,0 +1,86 @@
+<div class="login-container">
+  <div class="login-card">
+    <!-- Gauche : Image -->
+    <div class="login-image">
+      <img src="assets/startup-village.png" alt="Connexion" />
+    </div>
+ 
+    <!-- Droite : Formulaire -->
+    <div class="login-form">
+      <h2 *ngIf="!mfaRequired">Se connecter</h2>
+      <p *ngIf="!mfaRequired" class="sub-text">
+        Vous n’avez pas encore de compte ? <a routerLink="/register">Créer un compte</a>
+      </p>
+
+      <form *ngIf="!mfaRequired" (ngSubmit)="onLogin()">
+        <label for="username">Nom d'utilisateur ou Email</label>
+        <input type="text" id="email" [(ngModel)]="credentials.email" name="email" required placeholder="Entrez votre nom d'utilisateur ou email" />
+
+        <label for="password">Mot de passe</label>
+      <div class="password-wrapper">
+  <input
+    type="password" id="password" [(ngModel)]="credentials.password" name="password" required
+    placeholder="Entrez votre mot de passe"
+  />
+  
+</div>
+
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="keepLoggedIn" name="keepLoggedIn" />
+          <label for="keepLoggedIn">Rester connecté</label>
+        </div>
+
+        <button type="submit" class="login-btn">Se connecter</button>
+      </form>
+
+
+
+ <!-- MFA 
+      <div *ngIf="mfaRequired">
+        <h3 class="title">Entrez votre code MFA</h3>
+        <div class="form-group">
+          <label for="mfaCode">Code MFA</label>
+          <input type="text" id="mfaCode" [(ngModel)]="mfaCode" name="mfaCode" required />
+        </div>
+        <button class="btn success" (click)="onVerifyMfa()">Valider</button>
+      </div> -->
+      <!-- MFA -->
+<div *ngIf="mfaRequired" class="mfa-section">
+  <h2>Vérification en deux étapes</h2>
+
+  <p class="sub-text">Veuillez entrer le code à 6 chiffres généré par votre application Google Authenticator.</p>
+
+
+  <form (ngSubmit)="onVerifyMfa()">
+    <label for="mfaCode">Code de vérification</label>
+    <input
+      type="text"
+      id="mfaCode"
+      [(ngModel)]="mfaCode"
+      name="mfaCode"
+      required
+      placeholder="Entrez le code MFA"
+    />
+
+    <button type="submit" class="login-btn">Valider</button>
+  </form>
+
+</div>
+
+
+
+
+      <div *ngIf="!mfaRequired" class="links">
+        <a href="#">Mot de passe oublié ?</a>
+        <a href="#">Problème de connexion ?</a>
+      </div>
+      
+
+
+
+
+      
+    </div>
+  </div>
+</div>
