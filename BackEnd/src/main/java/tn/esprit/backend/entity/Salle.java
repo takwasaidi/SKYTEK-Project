@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -21,10 +22,18 @@ public class Salle {
     private Integer capacite;
     private Double tarifHoraire;
     private String emplacement;
-    @ElementCollection
-    @CollectionTable(name = "salle_images", joinColumns = @JoinColumn(name = "salle_id"))
-    @Column(name = "image_url")
-    private List<String> imagesUrls;
+
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+   @JoinTable(name = "salle_images" ,
+   joinColumns = {
+           @JoinColumn(name = "salle_id")
+   },
+           inverseJoinColumns = {
+           @JoinColumn(name = "image_id")
+           }
+   )
+    private Set<ImageModel> salleImages;
+
     private boolean estDisponible;
     private boolean enMaitenance;
 

@@ -13,6 +13,7 @@ import { ForgetPasswordComponent } from './components/forget-password/forget-pas
 import { HttpTokenInterceptor } from './interceptor/http-token.interceptor';
 import { ListSalleComponent } from './components/salle/list-salle/list-salle.component';
 import { AddSalleComponent } from './components/salle/add-salle/add-salle.component';
+import { MatGridListModule } from '@angular/material/grid-list';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +30,8 @@ import { AddSalleComponent } from './components/salle/add-salle/add-salle.compon
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatGridListModule
   ],
   providers: [
      {

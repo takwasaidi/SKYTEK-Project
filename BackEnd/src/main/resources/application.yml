@@ -24,6 +24,11 @@ spring:
           auth: true
           starttls:
             enable: true
+  servlet:
+    multipart:
+      max-file-size: 4GB
+      max-request-size: 4GB
+
   logging:
     level:
       root: INFO

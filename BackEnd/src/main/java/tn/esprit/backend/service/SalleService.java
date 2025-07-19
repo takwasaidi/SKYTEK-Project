@@ -2,6 +2,8 @@ package tn.esprit.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.backend.dto.salle.SalleDto;
 import tn.esprit.backend.entity.Equipment;
 import tn.esprit.backend.entity.Salle;
@@ -9,7 +11,14 @@ import tn.esprit.backend.mappers.SalleMapper;
 import tn.esprit.backend.repository.EquipmentRepository;
 import tn.esprit.backend.repository.SalleRepository;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,11 +26,14 @@ import java.util.stream.Collectors;
 public class SalleService {
     private final SalleRepository salleRepository;
     private final EquipmentRepository equipmentRepository;
-    public SalleDto save(SalleDto dto) {
-        List<Equipment> equipments = equipmentRepository.findAllById(dto.getEquipmentIds());
-        Salle salle = SalleMapper.toEntity(dto, equipments);
-        return SalleMapper.toDto(salleRepository.save(salle));
+
+
+   public Salle save(Salle salle) {
+        return salleRepository.save(salle);
     }
+
+
+
 
     public List<SalleDto> findAll() {
         return salleRepository.findAll()
@@ -48,7 +60,6 @@ public class SalleService {
         existing.setCapacite(dto.getCapacite());
         existing.setTarifHoraire(dto.getTarifHoraire());
         existing.setEmplacement(dto.getEmplacement());
-        existing.setImagesUrls(dto.getImagesUrls());
         existing.setEstDisponible(dto.isEstDisponible());
         existing.setEnMaitenance(dto.isEnMaitenance());
 

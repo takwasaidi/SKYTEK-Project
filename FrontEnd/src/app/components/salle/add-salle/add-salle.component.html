@@ -1,1 +1,60 @@
-<p>add-salle works!</p>
+<form (ngSubmit)="onSubmit()" #salleForm="ngForm" class="form-container">
+  <div class="form-group">
+    <label for="nom">Nom :</label>
+    <input id="nom" type="text" name="nom" [(ngModel)]="salle.nom" required placeholder="Nom de la salle" />
+  </div>
+
+  <div class="form-group">
+    <label for="capacite">Capacité :</label>
+    <input id="capacite" type="number" name="capacite" [(ngModel)]="salle.capacite" required placeholder="Nombre de places" />
+  </div>
+
+  <div class="form-group">
+    <label for="tarifHoraire">Tarif Horaire :</label>
+    <input id="tarifHoraire" type="number" step="0.01" name="tarifHoraire" [(ngModel)]="salle.tarifHoraire" required placeholder="Tarif en DT" />
+  </div>
+
+  <div class="form-group">
+    <label for="emplacement">Emplacement :</label>
+    <input id="emplacement" type="text" name="emplacement" [(ngModel)]="salle.emplacement" required placeholder="Adresse ou localisation" />
+  </div>
+
+  <div class="checkbox-group">
+    <label>
+      <input type="checkbox" name="estDisponible" [(ngModel)]="salle.estDisponible" />
+      Disponible
+    </label>
+    <label>
+      <input type="checkbox" name="enMaitenance" [(ngModel)]="salle.enMaitenance" />
+      En maintenance
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label for="images">Images :</label>
+    <input id="images" type="file" (change)="onFileSelected1($event)" multiple />
+  </div>
+
+  <div class="image-preview-container" *ngIf="salle.salleImages.length > 0">
+    <div class="image-preview" *ngFor="let file of salle.salleImages; let i = index">
+      <button type="button" class="btn-remove" (click)="removeImages(i)">×</button>
+      <img [src]="file.url" alt="Image salle" />
+    </div>
+  </div>
+
+  <div class="equipments-section">
+    <label>Équipements disponibles :</label>
+    <div *ngFor="let eq of equipments" class="equipment-item">
+      <input type="checkbox" [value]="eq.id" (change)="toggleEquipment(eq.id!, $event)" id="eq-{{eq.id}}" />
+      <label for="eq-{{eq.id}}">{{ eq.nom }}</label>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="!salleForm.form.valid" class="btn-submit">Ajouter Salle</button>
+
+  <div *ngIf="uploadProgress >= 0" class="upload-progress">
+    Progression: {{uploadProgress}}%
+  </div>
+
+  <div *ngIf="message" class="message">{{message}}</div>
+</form>

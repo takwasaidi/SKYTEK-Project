@@ -34,6 +34,7 @@ public class SecurityConfig{
     private final LogoutHandler logoutHandler;
     private static final String[] WHITE_LIST_URL = {"/api/auth/**",
             "/api/forgetPassword/**",
+            "/api/salle/**",
             "/v2/api-docs",
             "/v3/api-docs",
             "/v3/api-docs/**",
@@ -60,7 +61,7 @@ public class SecurityConfig{
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(WHITE_LIST_URL)
-                                .permitAll()
+                        .permitAll()
                                 .requestMatchers("/api/reservation/**").hasAnyRole(ADMIN.name(), INTERN_USER.name(),EXTERN_USER.name())
                                 .requestMatchers(GET, "/api/reservation/**").hasAnyAuthority(ADMIN_READ.name(), INTERN_USER_READ.name(),EXTERN_USER_READ.name())
                                 .requestMatchers(POST, "/api/reservation/**").hasAnyAuthority(ADMIN_CREATE.name(), INTERN_USER_CREATE.name(),EXTERN_USER_CREATE.name())
