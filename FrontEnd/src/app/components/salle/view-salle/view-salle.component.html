@@ -1,0 +1,59 @@
+<div class="container mt-4">
+  <div class="row">
+    <div *ngFor="let salle of salles" class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div id="carousel{{salle.id}}" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div *ngFor="let image of salle.salleImages; let i = index" [ngClass]="{'carousel-item': true, 'active': i === 0}">
+              <img [src]="image.url" class="d-block w-100" alt="Salle image" style="height: 200px; object-fit: cover;">
+            </div>
+          </div>
+
+          <!-- Flèches -->
+          <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#carousel' + salle.id" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+          </button>
+          <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#carousel' + salle.id" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+          </button>
+        </div>
+
+        <div class="card-body">
+          <h5 class="card-title">{{ salle.nom }}</h5>
+          <p class="card-text">Capacité : {{ salle.capacite }} personnes</p>
+          <button class="btn btn-primary btn-sm" (click)="openDetails(salle)">Voir les détails</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal de détails -->
+<div class="modal fade show d-block" tabindex="-1" *ngIf="selectedSalle" style="background-color: rgba(0,0,0,0.5);">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ selectedSalle.nom }}</h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Capacité :</strong> {{ selectedSalle.capacite }}</p>
+        <p><strong>Tarif :</strong> {{ selectedSalle.tarifHoraire }} TND/h</p>
+        <p><strong>Emplacement :</strong> {{ selectedSalle.emplacement }}</p>
+        <p><strong>Maintenance :</strong> {{ selectedSalle.enMaitenance ? 'Oui' : 'Non' }}</p>
+
+        <!-- Afficher toutes les images -->
+        <div class="row">
+          <div class="col-md-4" *ngFor="let img of selectedSalle.salleImages">
+            <img [src]="img.url" class="img-fluid mb-2" style="height: 200px; object-fit: cover;">
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>

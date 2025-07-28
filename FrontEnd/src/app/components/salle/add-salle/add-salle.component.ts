@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { FileHandle } from './../../../models/file-handle';
 import { HttpEventType } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
@@ -23,16 +24,19 @@ export class AddSalleComponent implements OnInit{
     equipmentIds: [],
     salleImages:[]
   };
-
   selectedFiles: File[] = [];
   uploadProgress: number = -1;
   message: string = '';
  equipments: Equipment[] = [];
+selectedEquipments: number[] = [];
+equipmentError: boolean = false;
+showGlobalError: boolean = false;
 
   constructor(
     private salleService: SalleService,
     private equipmentService: EquipmentService,
-    private sanitizer : DomSanitizer
+    private sanitizer : DomSanitizer,
+    private router : Router
   ) {}
 
    ngOnInit(): void {
@@ -44,30 +48,17 @@ export class AddSalleComponent implements OnInit{
       this.equipments = data;
     });
   }
+onEquipmentsSelected(event: Event): void {
+  const selectElement = event.target as HTMLSelectElement;
+  const selectedOptions = Array.from(selectElement.selectedOptions).map(opt => +opt.value);
+  this.selectedEquipments = selectedOptions;
 
-  toggleEquipment(id: number, event: any): void {
-    if (event.target.checked) {
-      this.salle.equipmentIds.push(id);
-    } else {
-      this.salle.equipmentIds = this.salle.equipmentIds.filter((eid) => eid !== id);
-    }
-  }
-imagePreviews: string[] = [];
-
-onFileSelected(event: any) {
-  const files = Array.from(event.target.files as FileList) as File[];
-
-  // Ajout des fichiers sélectionnés aux fichiers existants
-  this.selectedFiles = this.selectedFiles.concat(files);
-
-  for (let file of files) {
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      this.imagePreviews.push(e.target.result);
-    };
-    reader.readAsDataURL(file);
-  }
+  // Si tu veux lier directement à salle.equipements
+  this.salle.equipmentIds = this.selectedEquipments;
 }
+
+ 
+
 
 onFileSelected1(event: any) {
   if (event.target.files && event.target.files.length > 0) {
@@ -84,7 +75,13 @@ onFileSelected1(event: any) {
   }
 }
  onSubmit() {
-    
+
+    this.equipmentError = !this.salle.equipmentIds || this.salle.equipmentIds.length === 0;
+
+  if (this.equipmentError) {
+    return; // ne soumet pas le formulaire si pas d’équipement choisi
+  }
+ 
  const salleFormData = this.prepereFormData(this.salle,this.salle.equipmentIds);
     this.salleService.addSalle(salleFormData).subscribe(
       event => {
@@ -99,6 +96,7 @@ onFileSelected1(event: any) {
           equipmentIds: [],
           salleImages: []
         };
+        this.router.navigate(['/salles']);
     }, error => {
       this.message = 'Erreur lors de l\'ajout de la salle.';
       console.error(error);
@@ -126,53 +124,14 @@ onFileSelected1(event: any) {
      return formData;
   }
 
-
-
-
-  ///ili tekhdem deja 
-
-/*   onSubmit() {
-    this.uploadProgress = 0;
-    this.message = '';
-
-    this.salleService.addSalleWithImages(this.salle, this.selectedFiles, this.salle.equipmentIds).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress) {
-        this.uploadProgress = Math.round(event.loaded / (event.total || 1) * 100);
-      } else if (event.type === HttpEventType.Response) {
-        this.message = 'Salle ajoutée avec succès !';
-        this.uploadProgress = -1;
-
-        this.salle = {
-          nom: '',
-          capacite: 0,
-          tarifHoraire: 0,
-          emplacement: '',
-          estDisponible: false,
-          enMaitenance: false,
-          equipmentIds: []
-        };
-        this.selectedFiles = [];
-      }
-    }, error => {
-      this.message = 'Erreur lors de l\'ajout de la salle.';
-      this.uploadProgress = -1;
-      console.error(error);
-    });
-  }
-   */
-  onEquipmentChange(event: any) {
-  const equipmentId = +event.target.value;
-  if (event.target.checked) {
-    if (!this.salle.equipmentIds.includes(equipmentId)) {
-      this.salle.equipmentIds.push(equipmentId);
-    }
-  } else {
-    this.salle.equipmentIds = this.salle.equipmentIds.filter(id => id !== equipmentId);
-  }
-}
+  
 removeImages(i:number){
 this.salle.salleImages.splice(i, 1);
 }
+
+
+
+
 
 
 }

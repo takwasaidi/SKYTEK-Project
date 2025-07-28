@@ -1,0 +1,81 @@
+<div class="sidebar" [class.collapsed]="isCollapsed">
+  <div class="sidebar-header">
+    <i class="fas fa-gem logo-icon"></i>
+    <span class="logo-text">StartupVillage</span>
+  </div>
+
+
+
+  <!-- GESTION DES UTILISATEURS -->
+<div class="sidebar-section">
+  
+  <ul>
+    <li (click)="toggleUsersMenu()" style="cursor: pointer;">
+      <i class="fas fa-users"></i>
+      <span>Utilisateurs</span>
+      <i class="fas" [ngClass]="{'fa-chevron-down': !usersMenuOpen, 'fa-chevron-up': usersMenuOpen}" style="margin-left:auto;"></i>
+    </li>
+    
+    <ul *ngIf="usersMenuOpen" class="submenu">
+      <li routerLink="/ajouter-utilisateur">
+        <i class="fas fa-user-plus"></i><span>Ajouter utilisateur</span>
+      </li>
+      <li routerLink="/liste-utilisateurs">
+        <i class="fas fa-list"></i><span>Lister utilisateurs</span>
+      </li>
+    </ul>
+  </ul>
+  
+<!-- GESTION DES SALLES -->
+  <ul>
+    <li (click)="toggleSallesMenu()" style="cursor: pointer;">
+      <i class="fas fa-door-open"></i>
+      <span>Salles</span>
+      <i class="fas" [ngClass]="{'fa-chevron-down': !sallesMenuOpen, 'fa-chevron-up': sallesMenuOpen}" style="margin-left:auto;"></i>
+    </li>
+
+    <ul *ngIf="sallesMenuOpen" class="submenu">
+      <li routerLink="/ajouter-salle">
+        <i class="fas fa-plus-circle"></i><span>Ajouter salle</span>
+      </li>
+      <li routerLink="/salles">
+        <i class="fas fa-list"></i><span>Lister salles</span>
+      </li>
+    </ul>
+  </ul>
+  
+<!-- GESTION DES reservation -->
+   <ul>
+    <li (click)="toggleSallesMenu()" style="cursor: pointer;">
+      <i class="fas fa-door-open"></i>
+      <span>Reservations</span>
+      <i class="fas" [ngClass]="{'fa-chevron-down': !sallesMenuOpen, 'fa-chevron-up': sallesMenuOpen}" style="margin-left:auto;"></i>
+    </li>
+
+    <ul *ngIf="sallesMenuOpen" class="submenu">
+      <li routerLink="/ajouter-salle">
+        <i class="fas fa-plus-circle"></i><span>Consulter Reservations</span>
+      </li>
+      <li routerLink="/salles">
+        <i class="fas fa-list"></i><span>Lister salles</span>
+      </li>
+    </ul>
+  </ul>
+</div>
+
+
+  <div class="sidebar-section">
+    <p class="section-title">DASHBOARDS</p>
+    <ul>
+      <li><i class="fas fa-shopping-bag"></i><span>E-Commerce</span></li>
+      <li><i class="fas fa-university"></i><span>Banking</span></li>
+      <li><i class="fas fa-chart-line"></i><span>Marketing</span></li>
+    </ul>
+  </div>
+
+
+
+  <button class="toggle-btn" (click)="toggleSidebar()">
+    <i class="fas fa-bars"></i>
+  </button>
+</div>

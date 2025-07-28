@@ -19,7 +19,10 @@ public class Entreprise {
     private Integer id;
     private String nom;
     private String email;
-    private Integer quota;
     @OneToMany(mappedBy = "entreprise", cascade = CascadeType.ALL)
     private List<User> users;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "quota_id")
+    private Quota quota;
+
 }

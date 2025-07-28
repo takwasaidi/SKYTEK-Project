@@ -1,3 +1,5 @@
+
+
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -14,6 +16,17 @@ import { HttpTokenInterceptor } from './interceptor/http-token.interceptor';
 import { ListSalleComponent } from './components/salle/list-salle/list-salle.component';
 import { AddSalleComponent } from './components/salle/add-salle/add-salle.component';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { ListEquipmentComponent } from './components/equipment/list-equipment/list-equipment.component';
+import { EquipmentFormComponent } from './components/equipment/equipment-form/equipment-form.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { ReservationFormComponent } from './components/reservation/reservation-form/reservation-form.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { ViewSalleComponent } from './components/salle/view-salle/view-salle.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +36,14 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MfaComponent,
     ForgetPasswordComponent,
     ListSalleComponent,
-    AddSalleComponent
+    AddSalleComponent,
+    ListEquipmentComponent,
+    EquipmentFormComponent,
+    SidebarComponent,
+    NavbarComponent,
+    ReservationFormComponent,
+    CalendarComponent,
+    ViewSalleComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +51,9 @@ import { MatGridListModule } from '@angular/material/grid-list';
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    MatGridListModule
+    MatGridListModule,
+    NgxPaginationModule,
+    FullCalendarModule,
   ],
   providers: [
      {

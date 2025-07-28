@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Salle } from '../models/Salle';
-
+import { ImageProcessingService } from './image-processing.service';
+import { map } from 'rxjs/operators'; 
 @Injectable({
   providedIn: 'root'
 })
@@ -10,39 +11,20 @@ export class SalleService {
 
   private apiUrl = 'http://localhost:8087/api/salle';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private imageService: ImageProcessingService) {}
 
   getAll(): Observable<Salle[]> {
-    return this.http.get<Salle[]>(this.apiUrl);
+    return this.http.get<Salle[]>(this.apiUrl)
+    .pipe(
+       map((salles: any[]) => salles.map(salle => this.imageService.createImages(salle)))
+    );
   }
+  
 
   getById(id: number): Observable<Salle> {
     return this.http.get<Salle>(`${this.apiUrl}/${id}`);
+    
   }
-
-  /* create(salle: Salle): Observable<Salle> {
-    return this.http.post<Salle>(this.apiUrl, salle);
-  } */
-    create(salle: Salle, images: File[]): Observable<any> {
-  const formData = new FormData();
-
-  formData.append('nom', salle.nom);
-  formData.append('capacite', salle.capacite.toString());
-  formData.append('tarifHoraire', salle.tarifHoraire.toString());
-  formData.append('emplacement', salle.emplacement);
-  formData.append('estDisponible', salle.estDisponible.toString());
-  formData.append('enMaitenance', salle.enMaitenance.toString());
-
-  salle.equipmentIds.forEach(id => {
-    formData.append('equipmentIds', id.toString());
-  });
-
-  images.forEach((file) => {
-    formData.append('images', file);
-  });
-
-  return this.http.post(`${this.apiUrl}`, formData);
-}
 
   update(id: number, salle: Salle): Observable<Salle> {
     return this.http.put<Salle>(`${this.apiUrl}/${id}`, salle);
