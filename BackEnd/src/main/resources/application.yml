@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: BackEnd
+  datasource:
+    url: jdbc:mysql://localhost:3306/skytek?createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: root
+    password:
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: stakwa336@gmail.com
+    password: iabspyodwscbunll
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  servlet:
+    multipart:
+      max-file-size: 4GB
+      max-request-size: 4GB
+
+  logging:
+    level:
+      root: INFO
+      org.springframework.mail: DEBUG
+application:
+  security:
+    jwt:
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      expiration: 86400000 # a day
+      refresh-token:
+        expiration: 604800000 # 7 days
+server:
+  port: 8087

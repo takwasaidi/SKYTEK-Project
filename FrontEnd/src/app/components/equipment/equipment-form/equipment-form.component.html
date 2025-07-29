@@ -1,0 +1,21 @@
+<form #form="ngForm" (ngSubmit)="save(form)" novalidate>
+  <div class="mb-3">
+    <label>Nom :</label>
+    <input
+      [(ngModel)]="equipment.nom"
+      name="nom"
+      class="form-control"
+      required
+      #nom="ngModel"
+    />
+    <div *ngIf="(nom.invalid && (nom.touched || submitted))" class="text-danger">
+      Le nom de l'équipement est requis.
+    </div>
+  </div>
+
+  <button class="btn btn-primary" type="submit">
+    {{ isEditMode ? 'Mettre à jour' : 'Ajouter' }}
+  </button>
+
+  <button class="btn btn-secondary ms-2" routerLink="/equipments">Annuler</button>
+</form>

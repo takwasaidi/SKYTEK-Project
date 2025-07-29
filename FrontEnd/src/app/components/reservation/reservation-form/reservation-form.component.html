@@ -1,0 +1,35 @@
+<div class="form-wrapper">
+  <div class="form-card">
+    <h2 class="form-title">Créer une réservation</h2>
+    <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="dateReservation">Date</label>
+          <input type="date" id="dateReservation" formControlName="dateReservation" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="heureDebut">Heure de début</label>
+          <input type="time" id="heureDebut" formControlName="heureDebut" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="heureFin">Heure de fin</label>
+          <input type="time" id="heureFin" formControlName="heureFin" class="form-control" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="salleId">Salle</label>
+          <select id="salleId" formControlName="salleId" class="form-select">
+            <option *ngFor="let salle of salles" [value]="salle.id">{{ salle.nom }}</option>
+          </select>
+        </div>
+      </div>
+
+      <input type="hidden" formControlName="userId" />
+
+      <button type="submit" class="btn btn-primary btn-block">Créer Réservation</button>
+    </form>
+  </div>
+</div>

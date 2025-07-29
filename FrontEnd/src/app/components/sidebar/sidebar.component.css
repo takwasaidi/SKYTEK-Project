@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* === SIDEBAR === */
+.sidebar {
+  width: 200px;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  color: #e5e7eb;
+  background: linear-gradient(to bottom, #1e2025, #1e2025);
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.sidebar.collapsed {
+  width: 90px;
+}
+
+.sidebar.collapsed .logo-text,
+.sidebar.collapsed ul li span,
+.sidebar.collapsed .section-title {
+  display: none;
+}
+
+.sidebar.collapsed ul li {
+  justify-content: center;
+}
+
+/* === HEADER === */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.logo-icon {
+  font-size: 18px;
+  color: #e5e7eb;
+  margin-right: 8px;
+}
+
+.logo-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e5e7eb;
+}
+
+/* === SECTIONS === */
+.sidebar-section {
+  margin-bottom: 25px;
+}
+
+.section-title {
+  font-size: 13px;
+  color: #e5e7eb;
+  margin-bottom: 10px;
+}
+
+/* === MENU ITEMS === */
+.sidebar-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-section ul li {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+  cursor: pointer;
+  color: #e5e7eb;
+  font-size: 13px;
+  gap: 10px;
+}
+
+.sidebar-section ul li:hover {
+  background-color: #3a3d44;
+}
+
+.sidebar-section ul li i {
+  font-size: 14px;
+  color: #e5e7eb;
+}
+
+.sidebar-section ul li.active {
+  background-color: #44474e;
+  font-weight: bold;
+}
+
+/* === TOGGLE BUTTON === */
+.toggle-btn {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: none;
+  border: none;
+  color: #e5e7eb;
+  font-size: 18px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.toggle-btn:hover {
+  transform: scale(1.1);
+}
+
+/* === CUSTOM ICON COLOR === */
+.sidebar-section .fa-users-cog {
+  color: #ff6b6b;
+}
+
+/* === SUBMENU === */
+.submenu {
+  margin-left: 15px;
+}
+
+.submenu li {
+  margin-left: 10px;
+  padding: 5px 0;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}

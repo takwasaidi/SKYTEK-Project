@@ -1,0 +1,69 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+<nav class="dashboard-navbar">
+  <!-- Left: Back button -->
+  
+<div class="navbar-left" (click)="toggleSidebar.emit()" style="display: flex; align-items: center; padding-left: 15px; padding-right: 10px;">
+  <i class="fas" 
+     [ngClass]="sidebarOpen ? 'fa-chevron-left' : 'fa-chevron-right'" 
+     title="Afficher/Masquer Sidebar"
+     style="margin-right: 25px; font-size: 15px;"></i>
+
+  <div class="separator"></div>
+</div>
+
+
+
+
+
+  <!-- Center: Breadcrumb -->
+  <div class="navbar-center">
+    <nav class="breadcrumb">
+      <a href="#">Pages</a> /
+      <a href="#">Crud</a>
+    </nav>
+  </div>
+
+  <!-- Right: Icons -->
+  <div class="navbar-right">
+
+<!-- Champ de recherche visible -->
+  <div class="search-container">
+    <input type="text"
+           class="search-input"
+           placeholder="Rechercher..."
+           [(ngModel)]="searchText" />
+    <i class="fas fa-search search-icon"></i>
+  </div>
+
+
+  <!-- Settings Icon -->
+  <i class="fas fa-cog icon-btn settings" title="Paramètres"></i>
+
+  <!-- Notifications Icon -->
+  <div class="icon-btn icon-notification" title="Notifications">
+    <i class="fas fa-bell"></i>
+    <span class="badge">5</span>
+  </div>
+
+ 
+<div class="user-profile">
+  <img src="assets/images/taktuk.jpeg" alt="User Avatar" class="avatar" (click)="toggleDropdown()" />
+  <i class="fas fa-caret-down dropdown-icon"></i>
+
+  <div class="dropdown-menu" *ngIf="isDropdownOpen">
+    <div class="dropdown-item"><i class="fas fa-user"></i> Profile</div>
+    <div class="dropdown-item"><i class="fas fa-cog"></i> Settings</div>
+    <div class="dropdown-item" (click)="onLogout()"><i class="fas fa-sign-out-alt"></i> Log out</div>
+
+
+  </div>
+</div>
+
+
+
+
+</div>
+
+</nav>

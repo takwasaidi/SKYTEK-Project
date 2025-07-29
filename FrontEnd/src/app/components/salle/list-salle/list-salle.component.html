@@ -1,0 +1,105 @@
+
+<div class="product-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="actions">
+      <button class="btn new" [routerLink]="['/salle/new']">
+        <i class="fa fa-plus"></i> Nouveau
+      </button>
+
+      <button class="btn delete"><i class="fa fa-trash"></i> Delete</button>
+    </div>
+  
+    <div class="export">
+      <button class="btn export"><i class="fa fa-download"></i> Export</button>
+    </div>
+   
+  </div>
+    <!-- Search Bar à droite -->
+ 
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <!-- Texte à gauche -->
+  <h5 class="mb-0" style="margin-top: 45px; color: #334115; font-weight: normal;">
+    Gérer les utilisateurs
+  </h5>
+  <div class="search-bar-container position-relative">
+    <i class="fas fa-search search-icon"></i>
+    <input
+      type="text"
+      placeholder="Rechercher..."
+      class="form-control search-input"
+      aria-label="Search"
+    />
+  </div>
+</div>
+
+
+<div class="table-separator"></div>
+  <!-- Table Section -->
+  <table class="product-table">
+    <thead>
+      <tr>
+        <th><input type="checkbox" /></th>
+        <th>Nom<span class="sort-icons">↑↓</span></th>
+        <th>Capacité<span class="sort-icons">↑↓</span></th>
+        <th>Tarif Horaire<span class="sort-icons">↑↓</span></th>
+        <th>Emplacement<span class="sort-icons">↑↓</span></th>
+        <th>Disponible</th>
+        <th>En Maintenance</th>
+        <th>Images</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+  
+          <tr *ngFor="let salle of paginatedSalles">
+            <td><input type="checkbox" /></td>
+        <td>{{ salle.nom }}</td>
+        <td>{{ salle.capacite }}</td>
+        <td>{{ salle.tarifHoraire | currency:'DT' }}</td>
+        <td>{{ salle.emplacement }}</td>
+        <td>
+          <span *ngIf="salle.estDisponible; else notAvailable" class="text-success">Oui</span>
+          <ng-template #notAvailable><span class="text-danger">Non</span></ng-template>
+        </td>
+        <td>
+          <span *ngIf="salle.enMaitenance; else noMaintenance" class="text-warning">Oui</span>
+          <ng-template #noMaintenance><span>Non</span></ng-template>
+        </td>
+         <div class="row">
+        <div class="col-md-3" *ngFor="let image of salle.salleImages">
+          <img [src]="image.url" class="img-fluid rounded border" alt="Salle Image" />
+        </div>
+      </div>
+        <td>
+          <button class="btn btn-sm btn-primary me-1" (click)="editSalle(salle.id)">Modifier</button>
+          <button class="btn btn-sm btn-danger" (click)="deleteSalle(salle.id!)">Supprimer</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Footer Section -->
+ <!-- Pagination -->
+<!-- Pagination -->
+<div class="footer-section d-flex justify-content-center align-items-center mt-4 gap-2">
+  <button class="btn btn-primary" style="background-color: #5bc0de; border-color: #5bc0de;"
+          [disabled]="currentPage === 1" (click)="prevPage()">
+    Précédent
+  </button>
+
+  <span class="page-indicator">Page {{ currentPage }} sur {{ totalPages }}</span>
+
+  <button class="btn btn-primary" style="background-color: #5bc0de; border-color: #5bc0de;"
+          [disabled]="currentPage === totalPages" (click)="nextPage()">
+    Suivant
+  </button>
+</div>
+
+
+
+   <div *ngIf="salles.length === 0" class="alert alert-info">
+    Aucune salle trouvée.
+  </div>
+</div>
+

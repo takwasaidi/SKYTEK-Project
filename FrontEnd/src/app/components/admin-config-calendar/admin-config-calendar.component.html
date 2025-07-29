@@ -1,0 +1,12 @@
+<div class="container mt-4">
+  <h3 class="mb-3">Configuration des horaires disponibles</h3>
+
+  <div class="card p-3">
+    <full-calendar *ngIf="calendarOptions" [options]="calendarOptions"></full-calendar>
+
+  </div>
+
+  <div class="alert alert-info mt-3">
+    <strong>Instructions :</strong> Sélectionnez une plage horaire sur le calendrier pour la marquer comme <span style="color: #5bc0de;">disponible</span>. Cliquez sur un événement pour le supprimer.
+  </div>
+</div>
