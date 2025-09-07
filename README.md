@@ -70,13 +70,21 @@ BackEnd/
 
 FrontEnd/
 │── src/app/
+
 │   ├── models/        # Définition des modèles de données
+
 │   ├── services/      # Services pour appels API et logique
+
 │   ├── components/    # Composants Angular (UI)
+
 │   ├── guards/        # Guards (authentification / autorisation)
+
 │   ├── interceptors/  # Intercepteurs HTTP
+
 │── angular.json       # Configuration Angular
+
 │── package.json       # Dépendances frontend
+
 
 🔐 Sécurité
 
