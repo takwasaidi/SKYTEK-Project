@@ -1,6 +1,12 @@
+export interface Quota {
+  id?: number;
+  quota: number;
+  quotaUtilise: number;
+}
+
 export interface Entreprise {
   id?: number;
-  name: string;
+  nom: string;
   email: string;
-  quota: number;
+  quota?: Quota; // <-- Note que quota est un objet ici, pas un number directement
 }

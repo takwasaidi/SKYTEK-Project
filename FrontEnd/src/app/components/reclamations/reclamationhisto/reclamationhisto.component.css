@@ -1,0 +1,147 @@
+.reclamations-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 10px;
+  font-family: Arial, sans-serif;
+}
+
+.reclamation-card {
+  padding: 15px;
+  margin-bottom: 15px;
+  border-left: 4px solid #007bff;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+}
+
+/* Welcome Section */
+.welcome-section {
+  position: relative;
+  height: 450px; /* Hauteur réduite */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('/assets/startup4.png') no-repeat center center;
+  background-size: cover;
+  z-index: 1;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Overlay sombre */
+  z-index: 2;
+}
+
+.content {
+  position: relative;
+  z-index: 3;
+  max-width: 800px;
+  padding: 20px;
+}
+
+.main-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 25px;
+}
+
+.cta-btn {
+  background-color: #16AEE5; /* Bleu */
+  color: #fff;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cta-btn:hover {
+  background-color: #0f94c5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center; /* centre la pagination */
+  align-items: center;
+  margin-top: 20px;
+  gap: 15px; /* espace entre boutons et texte */
+  font-size: 16px;
+}
+
+.pagination button {
+  padding: 8px 16px;
+  background-color: #16AEE5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pagination button:hover {
+  background-color: #0f94c5;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-weight: bold;
+  color: #333;
+}
+.btn-download,
+.btn-cancel {
+  background-color: #fff;
+  padding: 4px 8px;       /* même taille interne */
+  border-radius: 6px;     /* angles arrondis uniformes */
+  font-size: 14px;        /* même taille texte/icon */
+  width: 36px;            /* largeur fixe */
+  height: 36px;           /* hauteur fixe */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 6px;       /* espace entre les boutons */
+}
+
+/* Spécifiques */
+.btn-cancel {
+  border: 2px solid #e83e8c;
+  color: #e83e8c;
+}
+
+.btn-cancel i {
+  color: #e83e8c;
+}
+
+.btn-download {
+  border: 2px solid #0d6efd;
+  color: #0d6efd;
+}
+
+.btn-download i {
+  color: #0d6efd;
+}

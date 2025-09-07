@@ -1,0 +1,145 @@
+
+<div class="product-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="actions">
+      <button class="btn new" data-bs-toggle="modal" data-bs-target="#horaireModal">
+        <i class="fa fa-plus"></i> Ajouter Horaire
+      </button>
+
+      <button class="btn delete"><i class="fa fa-trash"></i> Delete</button>
+    </div>
+  
+   <div class="export">
+  <button class="btn export" routerLink="/config">
+    <i class="fa fa-calendar-alt"></i> Consulter Calendrier
+  </button>
+</div>
+  </div>
+    <!-- Search Bar à droite -->
+ 
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <!-- Texte à gauche -->
+  <h5 class="mb-0" style="margin-top: 45px; color: #334115; font-weight: normal;">
+    Gérer les configurations
+  </h5>
+  <div class="search-bar-container position-relative">
+    <i class="fas fa-search search-icon"></i>
+    <input
+      type="text"
+      placeholder="Rechercher..."
+      class="form-control search-input"
+      aria-label="Search"
+    />
+  </div>
+</div>
+
+
+<div class="table-separator"></div>
+  <!-- Table Section -->
+  <table class="product-table">
+    <thead>
+      <tr>
+        <th><input type="checkbox" /></th>
+       <th>Jour</th>
+        <th>Ouvert</th>
+        <th>Heure Début</th>
+        <th>Heure Fin</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+  
+          <tr *ngFor="let config of configurations">
+           <td><input type="checkbox" /></td>
+            <td>{{config.jour}}</td>
+            <td>
+          <input type="checkbox" [(ngModel)]="config.estOuvert" (change)="onToggleOuverture(config)" />
+        </td>
+        <td>
+          <input type="time" [(ngModel)]="config.heureDebut" [disabled]="!config.estOuvert" />
+        </td>
+        <td>
+          <input type="time" [(ngModel)]="config.heureFin" [disabled]="!config.estOuvert" />
+        </td>
+        <td>
+           <button class="btn btn-sm btn-maintenance ms-1" (click)="onChangeHeure(config)">Enregistrer</button>
+          <button  class="btn btn-sm btn-edit me-1" >Modifier</button>
+          <button class="btn btn-sm btn-delete" >Supprimer</button>
+
+        
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Footer Section -->
+ <!-- Pagination -->
+<!-- Pagination -->
+<div class="footer-section d-flex justify-content-center align-items-center mt-4 gap-2">
+  <button class="btn btn-primary" style="background-color: #5bc0de; border-color: #5bc0de;"
+         >
+    Précédent
+  </button>
+
+  <span class="page-indicator">Page 1 sur 1</span>
+
+  <button class="btn btn-primary" style="background-color: #5bc0de; border-color: #5bc0de;"
+         >
+    Suivant
+  </button>
+</div>
+
+
+
+   <div *ngIf="configurations.length === 0" class="alert alert-info">
+    Aucune configuration trouvée.
+  </div>
+</div>
+
+
+<!-- Modal Bootstrap -->
+<div class="modal fade" id="horaireModal" tabindex="-1" aria-labelledby="horaireModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"> <!-- Centrage vertical ajouté ici -->
+    <div class="modal-content">
+
+      <form (ngSubmit)="saveConfig()">
+        <div class="modal-header">
+          <h5 class="modal-title" id="horaireModalLabel">Configurer les horaires</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group mb-2">
+            <label>Jour</label>
+            <select [(ngModel)]="config.jour" name="jour" class="form-control" required>
+              <option *ngFor="let jour of jours" [value]="jour">{{ jour }}</option>
+            </select>
+          </div>
+
+          <div class="form-group mb-2">
+            <label>Heure Début</label>
+            <input type="time" [(ngModel)]="config.heureDebut" name="heureDebut" class="form-control" required />
+          </div>
+
+          <div class="form-group mb-2">
+            <label>Heure Fin</label>
+            <input type="time" [(ngModel)]="config.heureFin" name="heureFin" class="form-control" required />
+          </div>
+
+          <div class="form-check">
+            <input type="checkbox" [(ngModel)]="config.estOuvert" name="estOuvert" class="form-check-input" />
+            <label class="form-check-label">Jour Ouvert</label>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button class="btn btn-info" type="submit">Enregistrer</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+

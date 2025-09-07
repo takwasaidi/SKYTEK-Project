@@ -1,0 +1,293 @@
+/* .dashboard-layout {
+  display: flex;
+}
+
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+.page-content {
+  padding: 20px; 
+} */
+ /* admin-dashboard.component.css or global styles */
+
+ .admin-layout {
+  display: flex;
+  height: 100vh;
+  background-color: #f9f9f9;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 240px;
+  background-color: #ffffff;
+  border-right: 1px solid #e0e0e0;
+  padding: 20px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.logo-img {
+  width: 40px;
+  height: auto;
+}
+
+.logo-text {
+  font-weight: bold;
+  font-size: 18px;
+  color: #000;
+}
+
+/* Menu */
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sidebar-menu a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu a.active {
+  background-color: #f0f0f0;
+  color: #000;
+  border-left: 4px solid #16AEE5; /* touche subtile de couleur */
+}
+.sidebar-menu i {
+  margin-right: 8px;
+  font-size: 15px;
+  color: #16AEE5; /* subtle blue touch */
+  min-width: 18px; /* align nicely */
+}
+
+/* Main */
+.main-content {
+  flex: 1;
+  padding: 30px;
+}
+
+.admin-navbar {
+  height: 90px;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 40px;
+  position: relative;
+  z-index: 100;
+}
+
+.centered-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-img {
+  width: 140px;  /* Slightly larger */
+  height: auto;
+  margin-top: -30px;
+}
+
+.logo-text {
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #000; /* or any light touch of your colors */
+}
+
+
+
+.admin-header {
+  display: flex;
+  justify-content: flex-end; /* move content to right */
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f5f5f5;
+  position: relative;
+}
+
+.user-info {
+  position: relative;
+  cursor: pointer;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #333;
+}
+
+.profile i {
+  font-size: 20px;
+}
+
+.arrow-icon {
+  font-size: 12px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0; /* align to right */
+  background: white;
+  border: 1px solid #ccc;
+  list-style: none;
+  padding: 10px 0;
+  margin: 0;
+  display: none;
+  min-width: 160px;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* space between icon and text */
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+.small-icon {
+  font-size: 14px;
+}
+
+
+
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* espace entre notif et profil */
+}
+
+.notification-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  position: relative;
+}
+
+.notification-btn .badge {
+  font-size: 0.5rem;
+}
+
+/* admin-header.component.css */
+
+/* Panneau notifications positionné en haut à droite */
+.notification-container {
+  position: fixed;
+  top: 80px;
+  right: 100px;
+  width: 360px;
+  max-height: 400px;
+  overflow-y: auto;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-radius: 20px !important;
+  z-index: 1050;
+  padding: 0;
+  border: 1px solid #ddd;
+}
+
+.notification-container .header {
+  background: transparent;
+  color: #333;
+  border-radius: 20px 20px 0 0 !important;
+  padding: 15px 20px !important ;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #095da6 !important;
+}
+
+/* Badge rouge dans l'en-tête */
+.notification-container .header .badge-number {
+  background: #ff4d4d;
+  color: white;
+  font-size: 0.75rem;
+  padding: 0.25em 0.5em;
+  border-radius: 50%;
+  position: relative;
+  top: -2px;
+}
+
+/* Liste notifications */
+.notifications-list {
+  list-style: none;
+  margin: 0;
+  padding: 10px 20px;
+}
+
+/* Chaque notification */
+.notification-item {
+  border-bottom: 1px solid #eee; /* séparateur gris clair */
+  padding: 12px 0;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #333;
+  background-color: #fff;
+  font-weight: normal;
+}
+
+/* Notification non lue - fond légèrement gris */
+.notification-item.bg-light {
+  background-color: #f7f7f7;
+  font-weight: 600;
+}
+
+/* Badge nouveau */
+.notification-item .badge {
+  font-size: 0.7rem;
+  padding: 0.2em 0.4em;
+  background-color: #ff4d4d;
+  color: white;
+  border-radius: 4px;
+  margin-right: 8px;
+}
+
+/* Petit texte date */
+.notification-item small {
+  color: #777;
+  font-size: 0.85rem;
+}
+
+/* Au survol, léger effet */
+.notification-item:hover {
+  background-color: #f0f0f0;
+}
+
+
+
+

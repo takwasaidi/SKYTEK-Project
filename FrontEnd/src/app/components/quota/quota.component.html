@@ -1,0 +1,127 @@
+<div class="product-container admin-quotas">
+  <!-- Header section with actions -->
+  <div class="header-section">
+    <h3>Gestion des quotas d'entreprises</h3>
+    
+       <div class="export">
+      <button class="btn export" (click)="downloadReport()"><i class="fa fa-download"></i> Export</button>
+    </div>
+ 
+  </div>
+
+  <!-- Loading and error messages -->
+  <div *ngIf="loading" class="my-3">Chargement...</div>
+  <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
+
+  <!-- Table -->
+  <table class="product-table mt-3">
+    <thead>
+      <tr>
+        <th>Entreprise</th>
+        <th>Email</th>
+        <th class="right">Quota total</th>
+        <th class="right">Utilisé</th>
+        <th class="right">Restant</th>
+        <th class="right">Montant dépassement</th>
+        <th>Statut</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let e of entreprises">
+        <td>{{ e.name }}</td>
+        <td>{{ e.email }}</td>
+
+        <!-- Quota editable cell -->
+        <td class="right" *ngIf="editingId !== e.entrepriseId">{{ e.quota }}</td>
+        <td class="right" *ngIf="editingId === e.entrepriseId">
+          <input type="number" class="form-control form-control-sm" [(ngModel)]="editingQuota" />
+        </td>
+
+        <td class="right">{{ e.quotaUtilise }}</td>
+       <td class="right">{{ e.quotaRestant < 0 ? 0 : e.quotaRestant }}</td>
+     <td class="right">{{ e.montantDepassement | number:'1.2-2' }} TND</td>
+
+<td>
+  <span [ngStyle]="{'color': e.quotaDepasse ? '#e83e8c' : '#198754'}">
+    {{ e.quotaDepasse ? 'Dépasse' : 'Ok' }}
+  </span>
+</td>
+
+
+
+       <td>
+  <div *ngIf="editingId !== e.entrepriseId" class="actions">
+    <!-- Modifier (pinkish) -->
+    <button class="btn action-btn" style="background-color:#e83e8c;color:white" 
+            (click)="startEdit(e)">
+      <i class="fas fa-edit"></i>
+    </button>
+
+    <!-- Réinitialiser (green) -->
+    <button class="btn action-btn" style="background-color:#28a745;color:white" 
+            (click)="resetUsage(e.entrepriseId)">
+      <i class="fas fa-sync-alt"></i>
+    </button>
+
+    <!-- Voir réservations (blue) -->
+    <button class="btn action-btn" style="background-color:#16AEE5;color:white" 
+            (click)="voirReservations(e.entrepriseId)">
+      <i class="fas fa-calendar-alt"></i> Voir réservations
+    </button>
+  </div>
+
+  <div *ngIf="editingId === e.entrepriseId" class="actions">
+    <!-- Sauvegarder (green) -->
+    <button class="btn action-btn" style="background-color:#28a745;color:white" 
+            (click)="saveEdit(e.entrepriseId)">
+      <i class="fas fa-save"></i> Sauvegarder
+    </button>
+
+    <!-- Annuler (gray) -->
+    <button class="btn action-btn" style="background-color:#6c757d;color:white" 
+            (click)="cancelEdit()">
+      <i class="fas fa-times"></i> Annuler
+    </button>
+  </div>
+</td>
+
+
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal -->
+<div *ngIf="showModal" class="custom-modal-backdrop">
+  <div class="custom-modal-container">
+    <div class="custom-modal-header">
+      <h3>Réservations - {{ selectedEntrepriseName }}</h3>
+      <button class="close-btn" (click)="closeModal()">×</button>
+    </div>
+    <div class="custom-modal-body">
+      <table class="product-table">
+        <thead>
+          <tr>
+            <th>Salle</th>
+            <th>Date</th>
+            <th>Durée (h)</th>
+            <th>Coût total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of reservations">
+            <td>{{ r.salleNom }}</td>
+            <td>{{ r.dateReservation }}</td>
+            <td>{{ r.dureeHeures }}</td>
+            <td>{{ r.coutTotal | currency:'TND' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="custom-modal-footer">
+      <button class="btn" style="background-color:#6c757d;color:#fff" 
+              (click)="closeModal()">Fermer</button>
+    </div>
+  </div>
+</div>

@@ -6,8 +6,11 @@ export interface Salle {
   capacite: number;
   tarifHoraire: number;
   emplacement: string;
+  titre: string;
+  description:string;
   estDisponible: boolean;
   enMaitenance: boolean;
   equipmentIds: number[];
   salleImages: FileHandle[];
 }
+

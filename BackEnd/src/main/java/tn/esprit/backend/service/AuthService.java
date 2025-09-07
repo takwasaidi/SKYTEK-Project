@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,6 +27,9 @@ import tn.esprit.backend.repository.UserRepository;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +41,8 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final EntrepriseRepository entrepriseRepository;
     private final TwoFactorAuthenticationService tfaService;
+    private final EmailVerificationService emailVerificationService;
+
     public AuthenticationResponse register(RegisterRequest request) {
         String email = request.getEmail();
         String domain = email.substring(email.indexOf("@") + 1);
@@ -46,6 +52,7 @@ public class AuthService {
                 .lastname(request.getLastname())
                 .phone(request.getPhone())
                 .email(email)
+                .mfaEnabled(true)
                 .password(passwordEncoder.encode(request.getPassword()));
 
         // Recherche d'une entreprise correspondant au domaine
@@ -86,7 +93,7 @@ public class AuthService {
                 .refreshToken(refreshToken)
                 .build();
     }
-    public AuthenticationResponse login(AuthenticationRequest request) {
+    public AuthenticationResponse login(AuthenticationRequest request,String mfaType) {
         // Authentification classique (email + mot de passe)
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -99,27 +106,39 @@ public class AuthService {
                 .orElseThrow();
 
         if (user.isMfaEnabled()) {
-            // Si MFA est activé, mais secret non généré (première connexion après activation MFA)
-            if (user.getSecret() == null || user.getSecret().isEmpty()) {
-                // Générer un nouveau secret MFA
-                String secret = tfaService.generateNewSecret();
-                user.setSecret(secret);
-                userRepository.save(user);
+            if (Objects.equals(mfaType, "APP")) {
+                user.setMfaType(MfaType.APP);
+                // Si MFA est activé, mais secret non généré (première connexion après activation MFA)
+                if (user.getSecret() == null || user.getSecret().isEmpty()) {
+                    // Générer un nouveau secret MFA
+                    String secret = tfaService.generateNewSecret();
+                    user.setSecret(secret);
+                    userRepository.save(user);
 
-                // Générer l'URI du QR code (image à afficher au frontend)
-                String qrCodeUri = tfaService.generateQrCodeImageUri(secret);
+                    // Générer l'URI du QR code (image à afficher au frontend)
+                    String qrCodeUri = tfaService.generateQrCodeImageUri(secret);
 
-                // Retourner la réponse avec flag mfaRequired = true et l'image QR
+                    // Retourner la réponse avec flag mfaRequired = true et l'image QR
+                    return AuthenticationResponse.builder()
+                            .mfaRequired(true)
+                            .secretImageUri(qrCodeUri)
+                            .build();
+                }
+
+                // Sinon MFA activé, secret déjà généré => demande du code MFA sans générer à nouveau
                 return AuthenticationResponse.builder()
                         .mfaRequired(true)
-                        .secretImageUri(qrCodeUri)
                         .build();
             }
+            else if (Objects.equals(mfaType, "EMAIL")) {
+                user.setMfaType(tn.esprit.backend.entity.MfaType.EMAIL);
+                // Nouvelle logique : envoi d’un code par email
+                emailVerificationService.generateAndSendCode(user.getEmail());
 
-            // Sinon MFA activé, secret déjà généré => demande du code MFA sans générer à nouveau
-            return AuthenticationResponse.builder()
-                    .mfaRequired(true)
-                    .build();
+                return AuthenticationResponse.builder()
+                        .mfaRequired(true)
+                        .build();
+            }
         }
 
         // MFA non activé : génération tokens classiques et renvoi
@@ -134,10 +153,161 @@ public class AuthService {
                 .mfaRequired(false)
                 .build();
     }
+////teste ////
+public AuthenticationResponse login1(AuthenticationRequest request) {
+    authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(
+                    request.getEmail(),
+                    request.getPassword()
+            )
+    );
+
+    var user = userRepository.findByEmail(request.getEmail())
+            .orElseThrow();
+
+    // ✅ Skip MFA if trusted period is still valid
+    if (user.getMfaTrustedUntil() != null && user.getMfaTrustedUntil().isAfter(LocalDateTime.now())) {
+        var jwtToken = jwtService.generateToken(user);
+        var refreshToken = jwtService.generateRefreshToken(user);
+        revokeAllUserTokens(user);
+        saveUserToken(user, jwtToken);
+
+        return AuthenticationResponse.builder()
+                .accessToken(jwtToken)
+                .refreshToken(refreshToken)
+                .mfaRequired(false)
+                .build();
+    }
+
+    // ✅ If MFA is enabled but not trusted
+    if (user.isMfaEnabled()) {
+        return AuthenticationResponse.builder()
+                .mfaRequired(true)
+                .build();
+    }
+
+    // ✅ Normal login (MFA disabled)
+    var jwtToken = jwtService.generateToken(user);
+    var refreshToken = jwtService.generateRefreshToken(user);
+    revokeAllUserTokens(user);
+    saveUserToken(user, jwtToken);
+
+    return AuthenticationResponse.builder()
+            .accessToken(jwtToken)
+            .refreshToken(refreshToken)
+            .mfaRequired(false)
+            .build();
+}
+
+
+    public ResponseEntity<?> initiateMfa(String email, String mfaType) {
+        var user = userRepository.findByEmail(email)
+                .orElseThrow();
+
+        if (!user.isMfaEnabled()) {
+            return ResponseEntity.badRequest().body("MFA is not enabled for this user.");
+        }
+
+        if ("APP".equalsIgnoreCase(mfaType)) {
+
+            user.setMfaType(MfaType.APP);
+            // Si MFA est activé, mais secret non généré (première connexion après activation MFA)
+            if (user.getSecret() == null || user.getSecret().isEmpty()) {
+                // Générer un nouveau secret MFA
+                String secret = tfaService.generateNewSecret();
+                user.setSecret(secret);
+                userRepository.save(user);
+
+                // Générer l'URI du QR code (image à afficher au frontend)
+                String qrCodeUri = tfaService.generateQrCodeImageUri(secret);
+
+                // Retourner la réponse avec flag mfaRequired = true et l'image QR
+                return ResponseEntity.ok(
+                        AuthenticationResponse.builder()
+                        .mfaRequired(true)
+                        .secretImageUri(qrCodeUri)
+                        .build()
+                );
+            }
+            userRepository.save(user);
+            // Sinon MFA activé, secret déjà généré => demande du code MFA sans générer à nouveau
+            return ResponseEntity.ok(
+                    AuthenticationResponse.builder()
+                    .mfaRequired(true)
+                    .build()
+            );
+        }
+
+        if ("EMAIL".equalsIgnoreCase(mfaType)) {
+            user.setMfaType(MfaType.EMAIL);
+
+            // Generate + send code
+            String code = emailVerificationService.generateAndSendCode(user.getEmail());
+            user.setEmailVerificationCode(code);
+            user.setCodeExpiration(LocalDateTime.now().plusMinutes(5));
+            userRepository.save(user);
+
+            return ResponseEntity.ok(
+                    AuthenticationResponse.builder()
+                            .mfaRequired(true)
+                            .build()
+            );
+        }
+
+        return ResponseEntity.badRequest().body("Invalid MFA type");
+    }
+    public AuthenticationResponse verifyCode1(VerificationRequest verificationRequest) {
+        User user = userRepository.findByEmail(verificationRequest.getEmail())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("No user found with email: %s", verificationRequest.getEmail())));
+
+        // Vérifier si le code est correct selon le type MFA
+        switch (user.getMfaType()) {
+            case APP:
+                if (!tfaService.isOtpValid(user.getSecret(), verificationRequest.getCode())) {
+                    throw new BadCredentialsException("Code is not correct");
+                }
+                break;
+
+            case EMAIL:
+                if (user.getEmailVerificationCode() == null || user.getCodeExpiration() == null) {
+                    throw new BadCredentialsException("No verification code found. Please request a new one.");
+                }
+                if (!user.getEmailVerificationCode().equals(verificationRequest.getCode())) {
+                    throw new BadCredentialsException("Email code is incorrect");
+                }
+                if (user.getCodeExpiration().isBefore(LocalDateTime.now())) {
+                    throw new BadCredentialsException("Email code has expired");
+                }
+                break;
+
+            default:
+                throw new IllegalStateException("Unsupported 2FA type");
+        }
+
+        // ✅ Appliquer "Remember Me" uniquement après validation MFA
+        if (verificationRequest.isRememberMe()) {
+            user.setMfaTrustedUntil(LocalDateTime.now().plusDays(3));
+            userRepository.save(user);
+        }
+
+        // Générer les tokens
+        String jwtToken = jwtService.generateToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
+        revokeAllUserTokens(user);
+        saveUserToken(user, jwtToken);
+
+        return AuthenticationResponse.builder()
+                .accessToken(jwtToken)
+                .refreshToken(refreshToken)
+                .mfaRequired(false)  // Le MFA est validé, plus besoin de vérification
+                .build();
+    }
 
 
 
 
+    //////tetset ///
     private void revokeAllUserTokens(User user){
         var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
         if(validUserTokens.isEmpty())
@@ -186,39 +356,7 @@ public class AuthService {
         }
     }
 
-    public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
 
-        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
-
-        // check if the current password is correct
-        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
-            throw new IllegalStateException("Wrong password");
-        }
-        // check if the two new passwords are the same
-        if (!request.getNewPassword().equals(request.getConfirmationPassword())) {
-            throw new IllegalStateException("Password are not the same");
-        }
-
-        // update the password
-        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-
-        // save the new password
-        userRepository.save(user);
-    }
-//    public AuthenticationResponse verifyCode(
-//            VerificationRequest verificationRequest
-//    ) {
-//        User user = userRepository
-//                .findByEmail(verificationRequest.getEmail())
-//                .orElseThrow(() -> new EntityNotFoundException(
-//                        String.format("No user found with %S", verificationRequest.getEmail()))
-//                );
-//
-//        var jwtToken = jwtService.generateToken(user);
-//        return AuthenticationResponse.builder()
-//                .accessToken(jwtToken)
-//                .build();
-//    }
 
     ///
     public String generateMfaSetup(String email) {
@@ -251,9 +389,30 @@ public class AuthService {
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("No user found with %s", verificationRequest.getEmail())));
 
-        if (!tfaService.isOtpValid(user.getSecret(), verificationRequest.getCode())) {
-            throw new BadCredentialsException("Code is not correct");
+        switch (user.getMfaType()) {
+            case APP:
+                if (!tfaService.isOtpValid(user.getSecret(), verificationRequest.getCode())) {
+                    throw new BadCredentialsException("Code is not correct");
+                }
+                break;
+            case EMAIL:
+                if (user.getEmailVerificationCode() == null || user.getCodeExpiration() == null) {
+                    throw new BadCredentialsException("No verification code found. Please request a new one.");
+                }
+                if (!user.getEmailVerificationCode().equals(verificationRequest.getCode())) {
+                    throw new BadCredentialsException("Email code is incorrect");
+                }
+                if (user.getCodeExpiration().isBefore(LocalDateTime.now())) {
+                    throw new BadCredentialsException("Email code has expired");
+                }
+                break;
+                default:
+                    throw new IllegalStateException("Unsupported 2FA type");
+
         }
+//        if (!tfaService.isOtpValid(user.getSecret(), verificationRequest.getCode())) {
+//            throw new BadCredentialsException("Code is not correct");
+//        }
 
 
         String jwtToken = jwtService.generateToken(user);
@@ -267,5 +426,12 @@ public class AuthService {
                 .mfaRequired(false)  // MFA est validé
                 .build();
     }
+
+    public String generateCode() {
+        Random random = new Random();
+        int code = 100000 + random.nextInt(900000); // 6 chiffres
+        return String.valueOf(code);
+    }
+
 
 }

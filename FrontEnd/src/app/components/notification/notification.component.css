@@ -1,0 +1,46 @@
+/* notification.component.css */
+
+.notification-container {
+  position: fixed;
+  bottom: 20px; /* distance depuis le bas */
+  right: 20px;  /* distance depuis la droite */
+  z-index: 1050; 
+  display: flex;
+  flex-direction: column-reverse; /* pour que la dernière notification apparaisse en bas */
+  gap: 10px; /* espace entre les notifications */
+  max-width: 300px;
+}
+
+.notification-container .alert {
+  margin: 0;
+  padding: 10px 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  animation: slideIn 0.5s ease-out;
+}
+
+/* Animation entrée */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Optionnel : fade out après 5 secondes */
+.notification-container .alert.fade-out {
+  animation: fadeOut 0.5s forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

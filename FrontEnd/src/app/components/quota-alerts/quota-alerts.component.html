@@ -1,0 +1,10 @@
+<div *ngIf="alerts.length === 0">
+  Pas d'alertes de quota.
+</div>
+
+<ul *ngIf="alerts.length > 0">
+  <li *ngFor="let alert of alerts">
+    <strong>{{alert.entreprise.nom}}</strong> - {{alert.type}} - {{alert.dateAlert | date:'short'}}
+    <button (click)="markRead(alert)">Marquer comme lu</button>
+  </li>
+</ul>

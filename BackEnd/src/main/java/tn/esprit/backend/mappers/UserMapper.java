@@ -17,6 +17,7 @@ public class UserMapper {
                 .lastname(user.getLastname())
                 .phone(user.getPhone())
                 .email(user.getEmail())
+                .entreprise(EntrepriseMapper.toDto(user.getEntreprise()))
                 .build();
     }
 }

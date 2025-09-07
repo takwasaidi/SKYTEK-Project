@@ -1,0 +1,4 @@
+.calendar-wrapper {
+  max-width: 90%; /* ou 800px selon ce que tu veux */
+  margin: 0 auto; /* pour centrer */
+}

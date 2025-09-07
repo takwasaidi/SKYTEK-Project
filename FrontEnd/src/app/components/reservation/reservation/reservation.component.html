@@ -1,0 +1,36 @@
+<h2 class="mb-4 text-center">Réserver la Salle</h2>
+
+<div class="reservation-layout">
+
+  <!-- Left: Room Details -->
+  <div class="room-details">
+    <img [src]="room.imageUrl" alt="{{room.name}}" />
+    <h4>{{ room.name }}</h4>
+    <p><strong>Capacité:</strong> {{ room.capacity }} personnes</p>
+    <p><strong>Équipements:</strong> {{ room.equipment }}</p>
+    <p>{{ room.description }}</p>
+  </div>
+
+  <!-- Center: Calendar -->
+  <div class="calendar text-center">
+    <h5>Calendrier</h5>
+    <div class="calendar-placeholder border rounded p-4 mt-3">
+      📅 <em>Calendrier FullCalendar ou autre ici</em>
+    </div>
+  </div>
+
+  <!-- Right: Availability -->
+  <div class="availability">
+    <h5>Disponibilité</h5>
+    <ul>
+      <li *ngFor="let slot of availability">
+        {{ slot.date }} - {{ slot.time }} 
+        <span [ngClass]="{'text-success': slot.available, 'text-danger': !slot.available}">
+          {{ slot.available ? '✅' : '❌' }}
+        </span>
+      </li>
+    </ul>
+    <button class="btn btn-primary mt-3 w-100" (click)="reserve()">Réserver ce créneau</button>
+  </div>
+
+</div>

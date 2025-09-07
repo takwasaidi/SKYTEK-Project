@@ -1,0 +1,100 @@
+.text-section-header {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #222;
+}
+
+.text-section-body {
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Header & tri */
+.salles-header h3 {
+  font-weight: bold;
+}
+
+.salles-header select {
+  min-width: 150px;
+}
+
+/* Carte & Carousel */
+.salles-section .card {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.salle-carousel {
+            
+  position: relative;
+  background: #f7f7f7;
+}
+
+.salle-carousel .carousel-item,
+.salle-carousel .carousel-item img {
+  height: 100% !important;
+}
+
+.salle-carousel .carousel-item img {
+  object-fit: cover !important  ;
+}
+
+/* Dots */
+.salle-carousel .carousel-indicators {
+  bottom: 8px;
+}
+
+.salle-carousel .carousel-indicators [data-bs-target] {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin: 0 3px;
+  background-color: #16AEE5;
+  opacity: 0.5;
+}
+
+.salle-carousel .carousel-indicators .active {
+  opacity: 1;
+}
+
+/* Flèches */
+.salle-carousel .carousel-control-prev,
+.salle-carousel .carousel-control-next {
+  width: 42px;
+}
+
+.salle-carousel .carousel-control-prev-icon,
+.salle-carousel .carousel-control-next-icon {
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));
+}
+
+/* Placeholder */
+.salle-carousel.placeholder {
+  color: #999;
+  font-size: 0.95rem;
+}
+
+
+
+.btn-custom {
+  color: #5bc0de;
+  border: 1px solid #5bc0de;
+  background-color: transparent;
+  border-radius: 5px;
+  padding: 4px 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-custom:hover {
+  background-color: #5bc0de;
+  color: white;
+}
+
+.custom-hr {
+  border-top: 1px solid #ccc;
+  width: 90%;       /* réduit la largeur du trait */
+  margin: 1rem auto; /* centre avec espace à gauche et à droite */
+}

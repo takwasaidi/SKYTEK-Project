@@ -1,0 +1,45 @@
+<nav class="navbar">
+  <div class="navbar-logo">
+  <a routerLink="/home">
+    <img src="assets/images/logo.png" alt="Startup Village Logo" class="logo-img" />
+  </a>
+</div>
+
+
+  <!-- Right side container -->
+  <div class="navbar-right">
+   <a routerLink="/welcome" routerLinkActive="active">Nos espaces</a>
+<a routerLink="/reclamation" routerLinkActive="active">Aide</a>
+
+
+    <!-- User Section -->
+    <div class="user-menu" *ngIf="isAuthenticated" (click)="toggleUserMenu()">
+      <span class="username">{{ lastname }} {{ firstname }}</span>
+      <div class="avatar">
+        <img src="assets/takwaaa.png" alt="User Avatar" />
+      </div>
+
+      <!-- Dropdown -->
+      <div class="user-dropdown" *ngIf="isUserMenuOpen">
+         <a href="#">Edit Profile</a>
+        <a routerLink="/reservationhisto">Mes réservations</a>
+        <a routerLink="/reclamations">Mes Réclamations</a>
+         <a routerLink="/quota">Suivi quota</a>
+        <a routerLink="/signin" (click)="onLogout()">Se déconnecter</a>
+      </div>
+    </div>
+
+    <!-- Auth Buttons if not logged in -->
+    <div class="auth-buttons" *ngIf="!isAuthenticated">
+      <button class="btn-outline" (click)="onLogin()">Login</button>
+      <button class="btn-primary" (click)="onRegister()">Create Account</button>
+    </div>
+  </div>
+
+  <!-- Hamburger for mobile -->
+  <div class="hamburger" (click)="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</nav>

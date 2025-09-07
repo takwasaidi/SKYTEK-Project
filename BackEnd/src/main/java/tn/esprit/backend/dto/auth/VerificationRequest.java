@@ -8,4 +8,5 @@ import lombok.Data;
 public class VerificationRequest {
     private String email;
     private String code;
+    private boolean rememberMe;
 }

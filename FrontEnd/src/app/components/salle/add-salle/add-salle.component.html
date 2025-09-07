@@ -1,11 +1,45 @@
+<br>
+<br>
 <div class="form-wrapper">
   <div class="card form-card">
     <h2 class="form-title">Ajouter une Salle</h2>
 
     <form (ngSubmit)="onSubmit()" #salleForm="ngForm" class="form-body">
 
-      <!-- Ligne 1 : Nom + Emplacement -->
+      <!-- Ligne 1 : Titre + description -->
       <div class="form-row">
+        <div class="form-group">
+          <label for="nom">titre</label>
+          <input
+            id="titre"
+            type="text"
+            name="titre"
+            [(ngModel)]="salle.titre"
+            required
+            #titre="ngModel"
+            placeholder="Nom de la salle"
+            class="form-control"
+          />
+          <div *ngIf="titre.invalid && titre.touched" class="text-danger">Le titre est requis.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="emplacement">Description</label>
+          <input
+            id="description"
+            type="text"
+            name="description"
+            [(ngModel)]="salle.description"
+            required
+            #description="ngModel"
+            placeholder="Adresse ou localisation"
+            class="form-control"
+          />
+          <div *ngIf="description.invalid && description.touched" class="text-danger">la description est requis.</div>
+        </div>
+      </div>
+
+  <div class="form-row">
         <div class="form-group">
           <label for="nom">Nom</label>
           <input
@@ -96,24 +130,25 @@
           <img [src]="file.url" alt="Image salle" />
         </div>
       </div>
+      <!-- Ligne : Équipements -->
+<div class="form-group">
+  <label>Équipements disponibles</label>
+  <div class="equipments-container">
+    <button
+      type="button"
+      *ngFor="let eq of equipments"
+      (click)="toggleEquipment(eq.id!)"
+      [class.selected]="salle.equipmentIds.includes(eq.id!)"
+      class="equipment-btn"
+    >
+      {{ eq.nom }}
+    </button>
+  </div>
+  <div *ngIf="equipmentError" class="text-danger">
+    Veuillez sélectionner au moins un équipement.
+  </div>
+</div>
 
-      <!-- Ligne 5 : Équipements -->
-      <div class="form-group">
-        <label for="equipements">Équipements disponibles</label>
-        <select
-          id="equipements"
-          multiple
-          [(ngModel)]="salle.equipmentIds"
-          name="equipements"
-          class="form-control"
-          #equipements="ngModel"
-        >
-          <option *ngFor="let eq of equipments" [ngValue]="eq.id">{{ eq.nom }}</option>
-        </select>
-        <div *ngIf="equipmentError" class="text-danger">
-          Veuillez sélectionner des équipements.
-        </div>
-      </div>
 
       <!-- Bouton Submit -->
       <button type="submit" class="btn btn-primary btn-block mt-3">Ajouter Salle</button>

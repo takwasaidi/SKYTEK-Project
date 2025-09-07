@@ -1,4 +1,167 @@
-<div class="card">
-  <h3>{{ title }}</h3>
-  <p>{{ value }}</p>
+
+<div class="container my-4" *ngFor="let salle of salles; let i = index">
+  <div class="card mx-auto p-3 border-0" style="max-width: 900px; background-color: white;">
+    <div class="row g-0 align-items-center">
+      <!-- Image -->
+      <div [ngClass]="i % 2 === 0 ? 'col-md-5 order-md-1' : 'col-md-5 order-md-2'">
+        <div [id]="'carouselSalle' + i" class="carousel slide h-100" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div *ngFor="let img of salle.salleImages; let j = index" [ngClass]="j === 0 ? 'carousel-item active' : 'carousel-item'">
+              <img [src]="img.url" class="d-block w-100 h-100 object-fit-cover" alt="...">
+            </div>
+          </div>
+          <div class="carousel-indicators position-absolute bottom-0 start-50 translate-middle-x mb-2">
+            <button *ngFor="let img of salle.salleImages; let j = index"
+                    type="button"
+                    [attr.data-bs-target]="'#carouselSalle' + i"
+                    [attr.data-bs-slide-to]="j"
+                    [class.active]="j === 0"
+                    class="bg-primary rounded-circle"
+                    style="width: 8px; height: 8px;"></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Texte -->
+      <div [ngClass]="i % 2 === 0 ? 'col-md-7 order-md-2 p-3' : 'col-md-7 order-md-1 p-3'">
+        <h6 class="text-muted">{{ salle.nom }}</h6>
+        <h5 class="fw-bold mb-3">{{ salle.titre }}</h5>
+        <p style="font-size: 0.9rem;">{{ salle.description}}</p>
+        <!-- <p style="font-size: 0.9rem;">{{ salle.description2 }}</p> -->
+     <div class="text-end mt-auto">
+    <button 
+      class="btn"
+      style="
+        color: #5bc0de;
+        border: 1px solid #5bc0de;
+        background-color: transparent;
+        border-radius: 5px;
+        padding: 4px 12px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: background-color 0.3s, color 0.3s;"
+      (click)="openDetails(salle)"
+      onmouseover="this.style.backgroundColor='#5bc0de'; this.style.color='white';"
+      onmouseout="this.style.backgroundColor='transparent'; this.style.color='#5bc0de';"
+    >
+      Voir détails
+    </button>
+  </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal overlay -->
+<!-- Modale -->
+<div class="modal show d-block" *ngIf="selectedSalle"
+     style="background-color: rgba(0, 0, 0, 0.5); z-index: 1050;">
+  <div class="modal-dialog" style="max-width: 700px;">
+    <div class="modal-content">
+
+      <!-- Header -->
+      <div class="modal-header" style="background-color: #f9f9f9;">
+        <h5 class="modal-title text-center" style="color: #004151; font-weight: bold;">{{ selectedSalle.nom }}</h5>
+
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body px-4 py-3" style="background-color: #f9f9f9;">
+          <!-- À propos -->
+        <h6 style="color: #004151;">À propos de cette salle</h6>
+        <p class="mb-3" style="color: #004151; font-size: 1.05rem;">
+          Prenez le large en choisissant l’une de nos salles de réunion, où confort et productivité se rencontrent.
+        </p>
+
+     <!-- Séparateur -->
+<hr style="border-top: 1px solid #d3d3d3;" />
+
+<!-- Horaire + Capacité -->
+<div class="d-flex justify-content-between align-items-center text-center py-3">
+  <!-- Horaire -->
+  <div style="flex: 1;">
+    <i class="bi bi-clock" style="font-size: 1.5rem; color: #5bc0de;"></i>
+    <div class="mt-1" style="color: #004151; font-weight: 500;">08:00 à 19:00</div>
+  </div>
+  <div style="width: 1px; height: 50px; background-color: #d3d3d3;"></div>
+  <!-- Capacité -->
+  <div style="flex: 1;">
+    <i class="bi bi-people" style="font-size: 1.5rem; color: #5bc0de;"></i>
+    <div class="mt-1" style="color: #004151; font-weight: 500;">
+      {{ selectedSalle.capacite }} personnes
+    </div>
+  </div>
+</div>
+
+<!-- Séparateur -->
+<hr style="border-top: 1px solid #d3d3d3;" />
+
+<!-- Emplacement + Tarif -->
+<div class="d-flex justify-content-between align-items-center text-center py-3">
+  <!-- Emplacement -->
+  <div style="flex: 1;">
+    <i class="bi bi-geo-alt" style="font-size: 1.5rem; color: #5bc0de;"></i>
+    <div class="mt-1" style="color: #004151; font-weight: 500;">
+      {{ selectedSalle.emplacement }}
+    </div>
+  </div>
+  <div style="width: 1px; height: 50px; background-color: #d3d3d3;"></div>
+  <!-- Tarif -->
+  <div style="flex: 1;">
+    <i class="bi bi-cash-coin" style="font-size: 1.5rem; color: #5bc0de;"></i>
+    <div class="mt-1" style="color: #004151; font-weight: 500;">
+      {{ selectedSalle.tarifHoraire }} DT / heure
+    </div>
+  </div>
+</div>
+
+<!-- Séparateur -->
+<hr style="border-top: 1px solid #d3d3d3;" />
+
+        <!-- Équipements -->
+        <div class="mb-3">
+          <strong style="color: #004151;">Équipements disponibles :</strong>
+          <ul class="list-unstyled mt-2">
+            <li *ngFor="let equip of getEquipementsDeLaSalle()">
+              <i class="bi bi-check2-circle text-success"></i> {{ equip.nom }}
+            </li>
+          </ul>
+        </div>
+
+        <!-- Séparateur -->
+        <hr style="border-top: 1px solid #d3d3d3;" />
+
+        <!-- Galerie d'images -->
+        <div class="mb-3">
+          <strong style="color: #004151;">Galerie :</strong>
+          <div class="row mt-2">
+            <div class="col-md-4 mb-3" *ngFor="let img of selectedSalle.salleImages">
+              <img [src]="img.url" alt="Salle Image"
+                   class="img-fluid rounded shadow-sm"
+                   style="height: 180px; width: 100%; object-fit: cover;">
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+<!-- Footer -->
+<div class="modal-footer" 
+     style="background-color: #f9f9f9; border-top: 1px solid #dee2e6; display: flex; justify-content: center;">
+<button 
+  class="btn" 
+  style="background-color: #5bc0de; color: white; border: none; text-decoration: none;"
+  (click)="handleReservation()">
+  Réserver dès maintenant
+</button>
+
+
+</div>
+
+
+
+
+    </div>
+  </div>
 </div>

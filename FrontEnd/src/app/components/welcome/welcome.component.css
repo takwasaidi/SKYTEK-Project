@@ -1,8 +1,36 @@
+.carousel-indicators [data-bs-target] {
+  margin: 0 4px;
+}
 .card {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  background-color: #ffffff;
+  box-shadow: none;
+  border: none;
+}
+img {
+  object-fit: cover;
+  height: 100%;
+}
+.reserve-btn {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.6rem 1.2rem;
+    background-color: #007bff;
+    color: #fff;
+    font-weight: 500;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-left: 100px;
+}
+
+.reserve-btn:hover {
+    background-color: #0056b3;
+}
+
+
+
+.modal-title {
   text-align: center;
   width: 100%;
 }

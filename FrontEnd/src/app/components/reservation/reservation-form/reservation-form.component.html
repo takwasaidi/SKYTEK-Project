@@ -1,35 +1,126 @@
-<div class="form-wrapper">
-  <div class="form-card">
-    <h2 class="form-title">Créer une réservation</h2>
-    <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
+<div class="reservation-page container py-4">
+  <div class="row g-4">
 
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label" for="dateReservation">Date</label>
-          <input type="date" id="dateReservation" formControlName="dateReservation" class="form-control" />
+   <!-- 1️⃣ Détails de la salle -->
+
+<div class="col-md-3">
+  <div class="card shadow-sm p-3 text-center">
+    <h5 class="mb-3">{{ selectedSalle?.titre }}</h5>
+    <p>{{ selectedSalle?.description }}</p>
+
+    <div class="row mb-3">
+      <!-- Temps d'ouverture -->
+      <div class="col-6 mb-3">
+        <div class="icon-circle mb-1" style=" color: rgb(14,190,255);">
+          <i class="bi bi-clock fs-4"></i>
         </div>
-        <div class="form-group">
-          <label class="form-label" for="heureDebut">Heure de début</label>
-          <input type="time" id="heureDebut" formControlName="heureDebut" class="form-control" />
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="heureFin">Heure de fin</label>
-          <input type="time" id="heureFin" formControlName="heureFin" class="form-control" />
-        </div>
+        <div class="small">08:00 - 19:00</div>
       </div>
 
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label" for="salleId">Salle</label>
-          <select id="salleId" formControlName="salleId" class="form-select">
-            <option *ngFor="let salle of salles" [value]="salle.id">{{ salle.nom }}</option>
-          </select>
+      <!-- Capacité -->
+      <div class="col-6 mb-3">
+        <div class="icon-circle mb-1" style=" color: rgb(234,46,94);">
+          <i class="bi bi-people fs-4"></i>
         </div>
+        <div class="small">{{ selectedSalle?.capacite }} personnes</div>
       </div>
 
-      <input type="hidden" formControlName="userId" />
+      <!-- Emplacement -->
+      <div class="col-6 mb-3">
+        <div class="icon-circle mb-1" style=" color: rgb(249,182,52);">
+          <i class="bi bi-geo-alt fs-4"></i>
+        </div>
+        <div class="small">{{ selectedSalle?.emplacement }}</div>
+      </div>
 
-      <button type="submit" class="btn btn-primary btn-block">Créer Réservation</button>
-    </form>
+      <!-- Tarif horaire -->
+     <div class="col-6 mb-3">
+  <div class="icon-circle mb-1" style="color: rgb(123,190,75);">
+    <i class="bi bi-cash-stack fs-4"></i>
+  </div>
+  <div class="small">{{ selectedSalle?.tarifHoraire }} TND /H</div>
+</div>
+
+
+    </div>
+
+   
+  <!-- Équipements -->
+<div class="mt-3 text-start">
+  <strong>Équipements :</strong>
+  <ul class="list-unstyled mt-1">
+    <li *ngFor="let eq of getEquipementsDeLaSalle()" class="d-flex align-items-center mb-1">
+      <span class="me-2" style="color: rgb(14,190,255); font-weight: bold;">•</span>
+      <span>{{ eq.nom }}</span>
+    </li>
+  </ul>
+</div>
+
+
+
+    
+  </div>
+</div>
+
+
+
+    <!-- 2️⃣ Calendrier -->
+    <div class="col-md-6">
+      <div class="calendar-wrapper">
+        <full-calendar #fullcalendar [options]="calendarOptions"></full-calendar>
+      </div>
+    </div>
+
+    <!-- 3️⃣ Disponibilités + Formulaire -->
+    <div class="col-md-3">
+      <div class="card shadow-sm p-3">
+
+        <!-- Quota message -->
+        <div *ngIf="quotaStatusMessage" class="alert" [ngClass]="{
+          'alert-warning': quotaWarningType === 'warning',
+          'alert-danger': quotaWarningType === 'danger'
+        }">
+          {{ quotaStatusMessage }}
+        </div>
+
+        <h6>Heures disponibles :</h6>
+        <div class="d-flex flex-wrap mb-3">
+          <button 
+            *ngFor="let heure of disponibilites"
+            class="btn btn-outline-primary btn-sm m-1"
+            [class.active]="selectedHeure === heure"
+            (click)="reserverHeure(heure)">
+            {{ formatHeure(heure) }}
+          </button>
+        </div>
+
+        <!-- Formulaire -->
+        <h6>Réservation :</h6>
+        <form (ngSubmit)="submitReservation()">
+          <div class="mb-2">
+                   <input type="date" id="dateReservation" class="form-control form-control-sm"
+                     [(ngModel)]="reservationData.dateReservation" name="dateReservation" required>
+           
+          </div>
+
+          <div class="mb-2">
+            <label>Heure début</label>
+            <input type="time" class="form-control form-control-sm" 
+            [(ngModel)]="reservationData.heureDebut" name="heureDebut" 
+            >
+          </div>
+
+          <div class="mb-2">
+            <label>Heure fin</label>
+            <input type="time" class="form-control form-control-sm" 
+            [(ngModel)]="reservationData.heureFin" name="heureFin" 
+            >
+          </div>
+        
+          <button type="submit" class="btn custom-submit-btn w-100">Confirmer réservation</button>
+        </form>
+      </div>
+    </div>
+
   </div>
 </div>

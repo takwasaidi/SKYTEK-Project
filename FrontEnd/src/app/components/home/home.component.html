@@ -1,0 +1,276 @@
+<!-- Welcome Section -->
+<section class="welcome-section position-relative text-center text-white">
+  <div class="background-image"></div>
+  <div class="overlay"></div>
+
+  <div class="content d-flex flex-column justify-content-center align-items-center">
+    <h1 class="main-title">Startup Village - Charguia</h1>
+    <p class="subtitle">L'espace d'innovation dédié à l'e-commerce</p>
+
+    <!-- Formulaire horizontal -->
+   <form class="reservation-form d-flex justify-content-center align-items-center gap-2 mt-3" (ngSubmit)="onSearch()">
+  <input type="date" class="form-control" [(ngModel)]="searchDTO.date" name="date" required>
+  <input type="time" class="form-control" [(ngModel)]="searchDTO.heureDebut" name="heureDebut" required>
+  <input type="time" class="form-control" [(ngModel)]="searchDTO.heureFin" name="heureFin" required>
+  <button type="submit" class="cta-btn">Chercher</button>
+</form>
+  </div>
+</section>
+
+<!-- Text Section -->
+<section class="text-section py-5 bg-white">
+  <div class="container text-center">
+    <h2 class="text-section-header mb-4">L’espace qui vous ressemble et vous rassemble</h2>
+    <p class="text-section-body mx-auto" style="max-width: 900px; font-size: 1rem; line-height: 1.6; color: #333;">
+      <strong>Startup Village</strong> est un espace de travail collaboratif conçu pour stimuler 
+      <strong>l’innovation</strong>, <strong>la créativité</strong> et le <strong>bien-être au travail</strong>. 
+      Dans une ambiance <strong>conviviale et humaine</strong>, il réunit une communauté 
+      <strong>diversifiée</strong> d’entrepreneurs, investisseurs, médias, artistes, freelances 
+      et équipes hybrides en quête de <strong>sens</strong>, <strong>connexion</strong> et <strong>collaboration</strong>.
+    </p>
+  </div>
+</section>
+
+<!-- Salle Cards Grid -->
+<!-- Salle Cards Grid (avec carrousel par carte) -->
+<section class="salles-section py-5 bg-light">
+  <div class="container">
+    <div class="row g-4">
+    
+      <div class="col-12 col-md-6" *ngFor="let salle of salles; let i = index">
+        <div class="card h-100 shadow-sm border-0">
+
+          <!-- Carousel -->
+          <ng-container *ngIf="salle.salleImages?.length; else noImg">
+            <div id="salleCarousel{{ i }}" class="carousel slide salle-carousel" data-bs-touch="true">
+              <div class="carousel-inner">
+                <div
+                  *ngFor="let img of salle.salleImages; let j = index"
+                  class="carousel-item"
+                  [class.active]="j === 0">
+                  <img [src]="img.url" class="d-block w-100" [alt]="salle.nom" />
+                </div>
+              </div>
+
+              <!-- Controls -->
+              <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#salleCarousel' + i" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Précédent</span>
+              </button>
+              <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#salleCarousel' + i" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Suivant</span>
+              </button>
+
+              <!-- Dots -->
+              <div class="carousel-indicators">
+                <button
+                  *ngFor="let _ of salle.salleImages; let j = index"
+                  type="button"
+                  [attr.data-bs-target]="'#salleCarousel' + i"
+                  [attr.data-bs-slide-to]="j"
+                  [class.active]="j === 0"
+                  aria-current="true"
+                  [attr.aria-label]="'Slide ' + (j+1)">
+                </button>
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- Placeholder si pas d'image -->
+          <ng-template #noImg>
+            <div class="salle-carousel placeholder d-flex align-items-center justify-content-center">
+              <span class="text-muted">Aucune image</span>
+            </div>
+          </ng-template>
+
+          <!-- Contenu -->
+          <div class="card-body d-flex flex-column">
+            <h6 class="text-muted mb-1">{{ salle.nom }}</h6>
+            <h5 class="fw-bold mb-2">{{ salle.titre }}</h5>
+            <p class="text-muted mb-3" style="font-size: 0.9rem;">{{ salle.description }}</p>
+
+           <button class="btn btn-custom mt-auto" (click)="openDetails(salle)">
+  Voir détails
+</button>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- Salle Cards -->
+<div class="container my-4" *ngFor="let salle of salles; let i = index">
+  <div class="card mx-auto p-3 border-0" style="max-width: 900px; background-color: white;">
+    <div class="row g-0 align-items-center">
+      <!-- Image -->
+      <div [ngClass]="i % 2 === 0 ? 'col-md-5 order-md-1' : 'col-md-5 order-md-2'">
+        <div [id]="'carouselSalle' + i" class="carousel slide h-100" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div *ngFor="let img of salle.salleImages; let j = index" [ngClass]="j === 0 ? 'carousel-item active' : 'carousel-item'">
+              <img [src]="img.url" class="d-block w-100 h-100 object-fit-cover" alt="...">
+            </div>
+          </div>
+          <div class="carousel-indicators position-absolute bottom-0 start-50 translate-middle-x mb-2">
+            <button *ngFor="let img of salle.salleImages; let j = index"
+                    type="button"
+                    [attr.data-bs-target]="'#carouselSalle' + i"
+                    [attr.data-bs-slide-to]="j"
+                    [class.active]="j === 0"
+                    class="bg-primary rounded-circle"
+                    style="width: 8px; height: 8px;"></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Texte -->
+      <div [ngClass]="i % 2 === 0 ? 'col-md-7 order-md-2 p-3' : 'col-md-7 order-md-1 p-3'">
+        <h6 class="text-muted">{{ salle.nom }}</h6>
+        <h5 class="fw-bold mb-3">{{ salle.titre }}</h5>
+        <p style="font-size: 0.9rem;">{{ salle.description}}</p>
+        <div class="text-end mt-auto">
+          <button 
+            class="btn"
+            style="
+              color: #5bc0de;
+              border: 1px solid #5bc0de;
+              background-color: transparent;
+              border-radius: 5px;
+              padding: 4px 12px;
+              font-size: 0.875rem;
+              font-weight: 500;
+              transition: background-color 0.3s, color 0.3s;"
+            (click)="openDetails(salle)"
+            onmouseover="this.style.backgroundColor='#5bc0de'; this.style.color='white';"
+            onmouseout="this.style.backgroundColor='transparent'; this.style.color='#5bc0de';"
+          >
+            Voir détails
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Modal overlay -->
+<!-- Modale -->
+<div class="modal show d-block" *ngIf="selectedSalle"
+     style="background-color: rgba(0, 0, 0, 0.5); z-index: 1050;">
+  <div class="modal-dialog" style="max-width: 700px;">
+    <div class="modal-content">
+
+      <!-- Header -->
+      <div class="modal-header" style="background-color: #f9f9f9;">
+        <h5 class="modal-title text-center" style="color: #004151; font-weight: bold;">{{ selectedSalle.nom }}</h5>
+
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body px-4 py-3" style="background-color: #f9f9f9;">
+          <!-- À propos -->
+        <h6 style="color: #004151;">À propos de cette salle</h6>
+        <p class="mb-3" style="color: #004151; font-size: 1.05rem;">
+          Prenez le large en choisissant l’une de nos salles de réunion, où confort et productivité se rencontrent.
+        </p>
+
+     <!-- Séparateur -->
+<hr style="border-top: 1px solid #d3d3d3;" />
+
+<!-- Horaire + Capacité -->
+<div class="d-flex justify-content-between align-items-center text-center py-3">
+  <!-- Horaire -->
+  <div style="flex: 1;">
+    <i class="bi bi-clock" style="font-size: 1.5rem; color: #5bc0de;"></i>
+    <div class="mt-1" style="color: #004151; font-weight: 500;">08:00 à 19:00</div>
+  </div>
+  <div style="width: 1px; height: 50px; background-color: #d3d3d3;"></div>
+  <!-- Capacité -->
+  <div style="flex: 1;">
+    <i class="bi bi-people" style="font-size: 1.5rem; color: #5bc0de;"></i>
+    <div class="mt-1" style="color: #004151; font-weight: 500;">
+      {{ selectedSalle.capacite }} personnes
+    </div>
+  </div>
+</div>
+
+<!-- Séparateur -->
+<hr style="border-top: 1px solid #d3d3d3;" />
+
+<!-- Emplacement + Tarif -->
+<div class="d-flex justify-content-between align-items-center text-center py-3">
+  <!-- Emplacement -->
+  <div style="flex: 1;">
+    <i class="bi bi-geo-alt" style="font-size: 1.5rem; color: #5bc0de;"></i>
+    <div class="mt-1" style="color: #004151; font-weight: 500;">
+      {{ selectedSalle.emplacement }}
+    </div>
+  </div>
+  <div style="width: 1px; height: 50px; background-color: #d3d3d3;"></div>
+  <!-- Tarif -->
+  <div style="flex: 1;">
+    <i class="bi bi-cash-coin" style="font-size: 1.5rem; color: #5bc0de;"></i>
+    <div class="mt-1" style="color: #004151; font-weight: 500;">
+      {{ selectedSalle.tarifHoraire }} DT / heure
+    </div>
+  </div>
+</div>
+
+<!-- Séparateur -->
+<hr style="border-top: 1px solid #d3d3d3;" />
+
+        <!-- Équipements -->
+        <div class="mb-3">
+          <strong style="color: #004151;">Équipements disponibles :</strong>
+          <ul class="list-unstyled mt-2">
+            <li *ngFor="let equip of getEquipementsDeLaSalle()">
+              <i class="bi bi-check2-circle text-success"></i> {{ equip.nom }}
+            </li>
+          </ul>
+        </div>
+
+        <!-- Séparateur -->
+        <hr style="border-top: 1px solid #d3d3d3;" />
+
+        <!-- Galerie d'images -->
+        <div class="mb-3">
+          <strong style="color: #004151;">Galerie :</strong>
+          <div class="row mt-2">
+            <div class="col-md-4 mb-3" *ngFor="let img of selectedSalle.salleImages">
+              <img [src]="img.url" alt="Salle Image"
+                   class="img-fluid rounded shadow-sm"
+                   style="height: 180px; width: 100%; object-fit: cover;">
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+<!-- Footer -->
+<div class="modal-footer" 
+     style="background-color: #f9f9f9; border-top: 1px solid #dee2e6; display: flex; justify-content: center;">
+<button 
+  class="btn" 
+  style="background-color: #5bc0de; color: white; border: none; text-decoration: none;"
+  (click)="handleReservation()">
+  Réserver dès maintenant
+</button>
+
+
+</div>
+
+
+
+
+    </div>
+  </div>
+</div>

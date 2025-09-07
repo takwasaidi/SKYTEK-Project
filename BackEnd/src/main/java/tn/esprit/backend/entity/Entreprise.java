@@ -24,5 +24,18 @@ public class Entreprise {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "quota_id")
     private Quota quota;
+    @OneToMany(mappedBy = "entreprise")
+    private List<QuotaAlert> alerts;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Entreprise)) return false;
+        Entreprise e = (Entreprise) o;
+        return id != null && id.equals(e.getId());
+    }
 
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 }

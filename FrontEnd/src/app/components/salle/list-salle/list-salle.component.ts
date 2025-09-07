@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Salle } from 'src/app/models/Salle';
 import { SalleService } from 'src/app/services/salle.service';
 
@@ -11,7 +12,7 @@ export class ListSalleComponent implements OnInit{
  salles: Salle[] = [];
   message: string = '';
 
-  constructor(private salleService: SalleService) {}
+  constructor(private salleService: SalleService , private router:Router) {}
 
   ngOnInit(): void {
    this.loadSalle();
@@ -27,11 +28,10 @@ export class ListSalleComponent implements OnInit{
     });
   }
 
-  editSalle(id: number | undefined): void {
-    if (!id) return;
-    // rediriger vers le formulaire de modification, par exemple :
-    // this.router.navigate(['/salle/edit', id]);
-  }
+  
+  editSalle(id: number) {
+  this.router.navigate(['/salle/edit', id]);
+}
 
 deleteSalle(id: number | undefined): void {
   if (id === undefined) {
@@ -74,6 +74,21 @@ prevPage() {
     this.currentPage--;
   }
 }
+setMaintenance(salle: Salle): void {
+  // Mettre à jour les champs côté front
+  salle.enMaitenance = true;
+  salle.estDisponible = false;
+
+  // Appel au service pour mettre à jour la salle côté backend
+  this.salleService.updateSalle(salle.id!, salle).subscribe({
+    next: () => {
+      console.log('Salle mise en maintenance avec succès');
+      // Optionnel : afficher un message ou rafraîchir la liste
+    },
+    error: (err) => console.error('Erreur lors de la mise en maintenance', err)
+  });
+}
+
 
 
 }

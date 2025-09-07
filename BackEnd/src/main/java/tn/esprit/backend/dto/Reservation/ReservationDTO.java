@@ -1,5 +1,6 @@
 package tn.esprit.backend.dto.Reservation;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,6 +10,7 @@ import java.time.LocalTime;
 
 @Data
 @Builder
+@AllArgsConstructor
 public class ReservationDTO {
     private Integer id;
     private LocalDate dateReservation;
@@ -19,5 +21,8 @@ public class ReservationDTO {
     private LocalDateTime dateCreation;
     private LocalDateTime dateModification;
     private Integer userId;
+
     private Integer salleId;
+    public ReservationDTO() {
+    }
 }

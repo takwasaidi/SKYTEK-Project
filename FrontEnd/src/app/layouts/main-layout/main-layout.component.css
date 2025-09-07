@@ -1,0 +1,11 @@
+
+app-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* pour être au-dessus des autres éléments */
+  background-color: white; /* pour éviter la transparence */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* optionnel : petite ombre */
+}
+app-notification {
+  display: block;
+}

@@ -1,0 +1,274 @@
+/* General Navbar */
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 90px;
+  padding: 0 120px; /* <-- garde 30px à gauche/droite */
+  background-color: #ffffff;
+  position: relative;
+  z-index: 10;
+}
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* space between items */
+}
+
+.navbar-right a {
+  text-decoration: none;
+  color: #004151; /* normal color */
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: none; /* keep original case */
+  transition: color 0.3s ease;
+}
+
+.navbar-right a:hover {
+  color: rgb(234, 46, 94);
+}
+.navbar-right a.active {
+  color: rgb(123, 190, 75); /* active color */
+}
+
+
+/* Logo section */
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+   /* <-- espace entre le bord gauche et le logo */
+}
+
+.logo-img {
+  width: 120px;   /* adapte selon la taille de ton image */
+  height: auto;
+  margin-top: -20px;
+}
+
+.logo-text {
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+
+/* Menu Items */
+.navbar-menu {
+  display: flex;
+  gap: 20px;
+}
+
+.navbar-menu a {
+  text-decoration: none;
+  color: #000000;
+  font-size: 16px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* Hamburger Menu (Mobile) */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background-color: #000;
+  display: block;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar-menu {
+    position: absolute;
+    top: 70px;
+    right: 0;
+    background-color: #fff;
+    flex-direction: column;
+    width: 100%;
+    display: none;
+    padding: 15px 30px;
+    border-top: 1px solid #ccc;
+  }
+
+  .navbar-menu.active {
+    display: flex;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}
+
+
+
+.auth-buttons, .user-menu {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-left: 20px;
+}
+
+.btn-outline {
+  padding: 6px 12px;
+  border: 1px solid #000;
+  background: transparent;
+  color: #000;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+.btn-outline:hover {
+  background: #000;
+  color: #fff;
+}
+
+.btn-primary {
+  padding: 6px 12px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  text-transform: uppercase;
+  font-size: 14px; 
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.username {
+  /* font-size: 14px;
+  font-weight: 500; */
+   text-decoration: none;
+  color: #000; /* normal color */
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: none; /* keep original case */
+  transition: color 0.3s ease;
+}
+
+
+
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+  background: #f0f0f0;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.username {
+  font-family: sans-serif;
+  font-size: 14px;
+  color: #000000;
+  font-weight: 500;
+}
+
+/* Dropdown */
+.user-dropdown {
+  position: absolute;
+  right: 0;
+  top: 50px;
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  border-radius: 5px;
+  overflow: hidden;
+  z-index: 10;
+} 
+
+.user-dropdown a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+}
+
+.user-dropdown a:hover {
+  background-color: #f5f5f5;
+}
+/* User Menu */
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* space between username and avatar */
+  position: relative;
+  cursor: pointer;
+}
+
+.user-menu .username {
+  font-size: 14px;
+  font-weight: 500;
+  color: #004151;
+}
+
+.user-menu .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+}
+
+.user-menu .avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Dropdown */
+.user-dropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  overflow: hidden;
+  min-width: 180px;
+  z-index: 100;
+}
+
+.user-dropdown a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  font-size: 14px;
+  color: #333;
+}
+
+.user-dropdown a:hover {
+  background-color: #f5f5f5;
+}

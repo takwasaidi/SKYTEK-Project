@@ -1,0 +1,60 @@
+<div class="register-wrapper">
+  <div class="register-container-with-image">
+
+    <!-- Colonne image -->
+    <div class="image-side">
+      <img src="assets/startup-village.png" alt="Illustration" />
+    </div>
+
+    <!-- Colonne formulaire (inchangée) -->
+    <div class="register-card">
+      <h2 class="register-title">Créer un compte</h2>
+
+      <div class="error-message" *ngIf="registerError">
+        {{ registerError }}
+      </div>
+
+      <form (ngSubmit)="onRegister()" [formGroup]="registerForm">
+        <div class="form-group">
+          <label for="nom">Nom</label>
+          <input formControlName="nom" type="text" id="nom" placeholder="Votre nom" />
+        </div>
+
+        <div class="form-group">
+          <label for="prenom">Prénom</label>
+          <input formControlName="prenom" type="text" id="prenom" placeholder="Votre prénom" />
+        </div>
+
+        <div class="form-group">
+          <label for="telephone">Téléphone</label>
+          <input formControlName="telephone" type="tel" id="telephone" placeholder="Ex: 20 123 456" />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Adresse e-mail</label>
+          <input formControlName="email" type="email" id="email" placeholder="Votre adresse e-mail" />
+        </div>
+
+  <div class="form-group password-group">
+  <label for="password">Mot de passe</label>
+  <div class="password-input-container">
+    <input formControlName="password" type="password" id="password" placeholder="Choisissez un mot de passe" />
+    <button type="button" class="icon-right" (click)="generateStrongPassword()">
+      <i class="fas fa-key"></i>
+    </button>
+  </div>
+</div>
+
+
+
+
+        <button class="btn-primary" type="submit">S'inscrire</button>
+      </form>
+
+      <p class="login-text">
+        Vous avez déjà un compte ?
+        <a class="login-link" href="/signin">Se connecter</a>
+      </p>
+    </div> 
+  </div>
+</div>

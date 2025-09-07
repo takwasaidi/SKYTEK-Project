@@ -1,0 +1,160 @@
+
+.register-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 0;        /* Plus d'espace vertical */
+  min-height: auto;       /* Ne force plus la hauteur */
+  margin-top: 40px;       /* Ajoute espace en haut */
+  margin-bottom: 40px;    /* Ajoute espace en bas */
+  /* Optionnel: max-height pour éviter que ce soit trop grand */
+  max-height: 80vh;
+}
+
+.register-container-with-image {
+  display: flex;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  overflow: hidden;
+  max-width: 900px;
+  width: 100%;
+  /* Limite la hauteur pour éviter le plein écran */
+  max-height: 600px;
+}
+
+
+.image-side {
+  flex: 1;
+  background-color: #f8f9fa;
+}
+
+.image-side img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.register-card {
+  flex: 1;
+  padding: 20px 40px; /* moins de padding vertical (20px top/bottom au lieu de 40px) */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* espace entre formulaire et pied */
+  max-height: 600px; /* même que container */
+}
+
+form {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: visible;
+}
+
+
+.register-title {
+  margin-bottom: 10px;
+  color: #000000;
+}
+
+.form-group {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #000;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-left: 4px solid #007bff;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+  border-left-color: #28a745;
+}
+
+.btn-primary {
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.login-text {
+  margin-top: 13px;
+  font-size: 14px;
+  color: #000;
+}
+
+.login-link {
+  color: #e83e8c;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+
+/* password */
+.password-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-container input {
+  width: 100%;
+  padding-right: 40px; /* space for the icon on the right */
+}
+
+/* Right key icon */
+.icon-right {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #007bff;
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.icon-right:focus {
+  outline: none;
+}
+

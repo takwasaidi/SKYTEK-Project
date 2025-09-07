@@ -1,5 +1,6 @@
 package tn.esprit.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +23,8 @@ public class Salle {
     private Integer capacite;
     private Double tarifHoraire;
     private String emplacement;
+    private String titre;
+    private String description;
 
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
    @JoinTable(name = "salle_images" ,
@@ -38,6 +41,7 @@ public class Salle {
     private boolean enMaitenance;
 
     @OneToMany(mappedBy = "salle", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Reservation> reservation;
     @ManyToMany
     @JoinTable(
@@ -45,6 +49,7 @@ public class Salle {
             joinColumns = @JoinColumn(name = "salle_id"),
             inverseJoinColumns = @JoinColumn(name = "equipment_id")
     )
+    @JsonIgnore
     private List<Equipment> equipments;
 
 }

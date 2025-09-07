@@ -1,0 +1,119 @@
+
+<div class="product-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="actions">
+      <button class="btn new" (click)="openAddEntrepriseModal()">
+        <i class="fa fa-plus"  ></i> Nouveau
+      </button>
+
+      <button class="btn delete"><i class="fa fa-trash"></i> Delete</button>
+    </div>
+  
+    <div class="export">
+      <button class="btn export"><i class="fa fa-download"></i> Export</button>
+    </div>
+   
+  </div>
+    <!-- Search Bar à droite -->
+ 
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <!-- Texte à gauche -->
+  <h5 class="mb-0" style="margin-top: 45px; color: #334115; font-weight: normal;">
+    Gérer les entreprises
+  </h5>
+  <div class="search-bar-container position-relative">
+    <i class="fas fa-search search-icon"></i>
+    <input
+      type="text"
+      placeholder="Rechercher..."
+      class="form-control search-input"
+      aria-label="Search"
+    />
+  </div>
+</div>
+
+
+<div class="table-separator"></div>
+  <!-- Table Section -->
+  <table class="product-table">
+    <thead>
+      <tr>
+        <th><input type="checkbox" /></th>
+        <th>Nom<span class="sort-icons">↑↓</span></th>
+        <th>EMAIL<span class="sort-icons">↑↓</span></th>
+        <th>Quota<span class="sort-icons">↑↓</span></th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+   
+          <tr *ngFor="let entrperise of entreprises">
+            <td><input type="checkbox" /></td>
+        <td>{{ entrperise.nom }}</td>
+        <td>{{ entrperise.email }}</td>
+        <td>{{ entrperise.quota?.quota }}</td>
+        <td>
+            <button class="btn btn-sm btn-primary" (click)="openEditEntrepriseModal(entrperise)">Modifier</button>
+          <button class="btn btn-sm btn-danger" (click)="deleteEntreprise(entrperise.id!)">Supprimer</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Footer Section -->
+ <!-- Pagination -->
+<!-- Pagination -->
+<div class="footer-section d-flex justify-content-center align-items-center mt-4 gap-2">
+  <button class="btn btn-primary" style="background-color: #5bc0de; border-color: #5bc0de;"
+          [disabled]="currentPage === 1" (click)="prevPage()">
+    Précédent
+  </button>
+
+  <span class="page-indicator">Page {{ currentPage }} sur {{ totalPages }}</span>
+
+  <button class="btn btn-primary" style="background-color: #5bc0de; border-color: #5bc0de;"
+          [disabled]="currentPage === totalPages" (click)="nextPage()">
+    Suivant
+  </button>
+</div>
+
+
+
+   <div *ngIf="entreprises.length === 0" class="alert alert-info">
+    Aucune salle trouvée.
+  </div>
+</div>
+
+
+<div class="modal fade" id="entrepriseModal" tabindex="-1" aria-labelledby="entrepriseModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="entrepriseModalLabel">
+          {{ selectedEntreprise ? 'Modifier une entreprise' : 'Ajouter une entreprise' }}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="saveEntreprise()">
+          <div class="mb-3">
+            <label for="nom" class="form-label">Nom</label>
+            <input [(ngModel)]="newEntreprise.nom" name="nom" id="nom" type="text" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input [(ngModel)]="newEntreprise.email" name="email" id="email" type="email" class="form-control" required>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+            <button type="submit" class="btn btn-primary">
+              {{ selectedEntreprise ? 'Enregistrer les modifications' : 'Ajouter' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

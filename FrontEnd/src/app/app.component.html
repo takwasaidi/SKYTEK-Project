@@ -1,21 +1,4 @@
-<ng-container *ngIf="!isLoginPage">
-  <div class="dashboard-layout">
-    <app-sidebar *ngIf="sidebarOpen && isAdmin"></app-sidebar>
 
-    <div class="main-content">
-      <app-navbar 
-        [sidebarOpen]="sidebarOpen" 
-        (toggleSidebar)="toggleSidebar()">
-      </app-navbar>
 
-      <div class="page-content">
-        <router-outlet></router-outlet>
-      </div>
-    </div>
-  </div>
-</ng-container>
-
-<!-- Affichage sans layout pour la page login -->
-<ng-container *ngIf="isLoginPage">
-  <router-outlet></router-outlet>
-</ng-container>
+ <router-outlet></router-outlet>
+ 

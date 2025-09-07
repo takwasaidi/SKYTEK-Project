@@ -21,6 +21,8 @@ public class SalleMapper {
                 .emplacement(salle.getEmplacement())
                 .estDisponible(salle.isEstDisponible())
                 .enMaitenance(salle.isEnMaitenance())
+                .titre(salle.getTitre())
+                .description(salle.getDescription())
                 .equipmentIds(
                         salle.getEquipments() != null ?
                                 salle.getEquipments().stream()

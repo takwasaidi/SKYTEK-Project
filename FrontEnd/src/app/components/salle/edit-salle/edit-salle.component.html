@@ -1,0 +1,159 @@
+<div class="form-wrapper">
+  <div class="card form-card">
+    <h2 class="form-title">Modifier Salle</h2>
+
+    <form (ngSubmit)="onSubmit()" #salleForm="ngForm" class="form-body" *ngIf="salle">
+
+      <!-- Ligne 1 : Titre + Description -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="titre">Titre</label>
+          <input
+            id="titre"
+            type="text"
+            name="titre"
+            [(ngModel)]="salle.titre"
+            required
+            #titre="ngModel"
+            placeholder="Nom de la salle"
+            class="form-control"
+          />
+          <div *ngIf="titre.invalid && titre.touched" class="text-danger">Le titre est requis.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description</label>
+          <input
+            id="description"
+            type="text"
+            name="description"
+            [(ngModel)]="salle.description"
+            required
+            #description="ngModel"
+            placeholder="Adresse ou localisation"
+            class="form-control"
+          />
+          <div *ngIf="description.invalid && description.touched" class="text-danger">La description est requise.</div>
+        </div>
+      </div>
+
+      <!-- Ligne 2 : Nom + Emplacement -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="nom">Nom</label>
+          <input
+            id="nom"
+            type="text"
+            name="nom"
+            [(ngModel)]="salle.nom"
+            required
+            #nom="ngModel"
+            placeholder="Nom de la salle"
+            class="form-control"
+          />
+          <div *ngIf="nom.invalid && nom.touched" class="text-danger">Le nom est requis.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="emplacement">Emplacement</label>
+          <input
+            id="emplacement"
+            type="text"
+            name="emplacement"
+            [(ngModel)]="salle.emplacement"
+            required
+            #emplacement="ngModel"
+            placeholder="Adresse ou localisation"
+            class="form-control"
+          />
+          <div *ngIf="emplacement.invalid && emplacement.touched" class="text-danger">L’emplacement est requis.</div>
+        </div>
+      </div>
+
+      <!-- Ligne 3 : Capacité + Tarif -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="capacite">Capacité</label>
+          <input
+            id="capacite"
+            type="number"
+            name="capacite"
+            [(ngModel)]="salle.capacite"
+            required
+            #capacite="ngModel"
+            placeholder="Nombre de places"
+            class="form-control"
+          />
+          <div *ngIf="capacite.invalid && capacite.touched" class="text-danger">La capacité est requise.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="tarifHoraire">Tarif horaire</label>
+          <input
+            id="tarifHoraire"
+            type="number"
+            step="0.01"
+            name="tarifHoraire"
+            [(ngModel)]="salle.tarifHoraire"
+            required
+            #tarifHoraire="ngModel"
+            placeholder="Tarif en DT"
+            class="form-control"
+          />
+          <div *ngIf="tarifHoraire.invalid && tarifHoraire.touched" class="text-danger">Le tarif est requis.</div>
+        </div>
+      </div>
+
+      <!-- Ligne 4 : Checkboxes -->
+      <div class="checkbox-group">
+        <label class="checkbox-label">
+          <input type="checkbox" name="estDisponible" [(ngModel)]="salle.estDisponible" />
+          Disponible
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" name="enMaitenance" [(ngModel)]="salle.enMaitenance" />
+          En maintenance
+        </label>
+      </div>
+
+      <!-- Ligne 5 : Images -->
+      <div class="form-group">
+        <label for="images">Images</label>
+        <input id="images" type="file" (change)="onFileSelected1($event)" multiple class="form-control" />
+      </div>
+
+ 
+      
+      <!-- Prévisualisation des images -->
+      <div class="image-preview-container" *ngIf="salle.salleImages?.length > 0">
+        <div class="image-preview" *ngFor="let file of salle.salleImages; let i = index">
+          <button type="button" class="btn-remove" (click)="removeImages(i)">×</button>
+          <img [src]="file.url" alt="Image salle" />
+        </div>
+      </div>
+
+      <!-- Ligne 6 : Équipements -->
+      <div class="form-group">
+        <label>Équipements disponibles</label>
+        <div class="equipments-container">
+          <button
+            type="button"
+            *ngFor="let eq of equipments"
+            (click)="toggleEquipment(eq.id!)"
+            [class.selected]="salle.equipmentIds.includes(eq.id!)"
+            class="equipment-btn"
+          >
+            {{ eq.nom }}
+          </button>
+        </div>
+        <div *ngIf="equipmentError" class="text-danger">
+          Veuillez sélectionner au moins un équipement.
+        </div>
+      </div>
+
+      <!-- Bouton Submit -->
+      <button type="submit" class="btn btn-primary btn-block mt-3">Mettre à jour</button>
+      <span class="text-success ms-3">{{ message }}</span>
+    </form>
+  </div>
+</div>

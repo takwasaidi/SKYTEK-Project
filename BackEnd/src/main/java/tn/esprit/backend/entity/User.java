@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -33,11 +34,19 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Token> tokens;
     private boolean mfaEnabled;
+    @Enumerated(EnumType.STRING)
+    private MfaType mfaType;
+    private String emailVerificationCode;
+    private LocalDateTime codeExpiration;
+    private LocalDateTime mfaTrustedUntil;
+
     private String secret;
     @ManyToOne
     private Entreprise entreprise ;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Reservation> reservation;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Reservation> reclamations;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

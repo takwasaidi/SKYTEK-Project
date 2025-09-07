@@ -1,0 +1,27 @@
+.btn-custom {
+  background-color: #5bc0de;
+  color: white;
+  border: none;
+}
+
+.btn-custom:hover {
+  background-color: #31b0d5;
+}
+
+.btn-outline-custom {
+  background-color: transparent;
+  color: #5bc0de;
+  border: 1px solid #5bc0de;
+}
+
+.btn-outline-custom:hover {
+  background-color: #5bc0de;
+  color: white;
+}
+
+.badge-custom {
+  background-color: #5bc0de;
+  color: white;
+  padding: 0.4em 0.7em;
+  border-radius: 0.25rem;
+}

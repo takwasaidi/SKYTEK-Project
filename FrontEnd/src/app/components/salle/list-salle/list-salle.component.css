@@ -62,7 +62,7 @@ body {
 }
 
 .search-icon {
-  margin-top: 18px;
+  margin-top: 15px;
   position: absolute;
   left: 10px;
   top: 50%;
@@ -155,3 +155,43 @@ body {
     width: 100%;
   }
 }
+
+
+
+
+.btn-new {
+  background-color: white;
+  color: #28a745;          /* vert */
+  border: 2px solid #28a745;
+}
+
+.btn-delete {
+  background-color: white;
+  color: #e83e8c;          /* rouge */
+  border: 2px solid #e83e8c;
+}
+
+.btn-edit {
+  background-color: white;
+  color: #5bc0de;          /* bleu */
+  border: 2px solid #5bc0de;
+}
+
+.btn-maintenance {
+  background-color: white;
+  color: #ffc107;          /* jaune / orange */
+  border: 2px solid #ffc107;
+}
+
+.btn-export {
+  background-color: white;
+  color: #17a2b8;          /* cyan */
+  border: 2px solid #17a2b8;
+}
+
+/* Effet au survol : le fond devient coloré, texte blanc */
+.btn-new:hover { background-color: #28a745; color: white; }
+.btn-delete:hover { background-color: #e83e8c; color: white; }
+.btn-edit:hover { background-color: #5bc0de; color: white; }
+.btn-maintenance:hover { background-color: #ffc107; color: black; }
+.btn-export:hover { background-color: #17a2b8; color: white; }

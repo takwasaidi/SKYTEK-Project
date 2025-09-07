@@ -26,9 +26,9 @@ public class AuthenticationController {
     private final AuthService authService;
     private final JwtService jwtService;
     private final UserRepository userRepository;
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthenticationRequest request) {
-        AuthenticationResponse response = authService.login(request);
+    @PostMapping("/login/{MfaType}")
+    public ResponseEntity<?> login(@RequestBody AuthenticationRequest request,@PathVariable("MfaType") String MfaType) {
+        AuthenticationResponse response = authService.login(request,MfaType);
         return ResponseEntity.ok(response);
     }
     @PostMapping("/refresh-token")
@@ -76,6 +76,29 @@ public ResponseEntity<?> verifyCode(
 ) {
     return ResponseEntity.ok(authService.verifyCode(verificationRequest));
 }
+
+
+//testtt//
+@PostMapping("/login1")
+public ResponseEntity<AuthenticationResponse> login1(@RequestBody AuthenticationRequest request) {
+    AuthenticationResponse response = authService.login1(request);
+    return ResponseEntity.ok(response);
+}
+    @PostMapping("/initiate-mfa")
+    public ResponseEntity<?> initiateMfa(
+            @RequestParam String email,
+            @RequestParam String mfaType
+    ) {
+        return authService.initiateMfa(email, mfaType);
+    }
+    @PostMapping("/verify-mfa")
+    public ResponseEntity<AuthenticationResponse> verifyMfa(@RequestBody VerificationRequest request) {
+        AuthenticationResponse response = authService.verifyCode1(request);
+        return ResponseEntity.ok(response);
+    }
+
+
+    /////
 
 
 

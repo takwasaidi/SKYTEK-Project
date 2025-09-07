@@ -1,0 +1,82 @@
+<div class="quota-user-container">
+
+  <!-- Quota global -->
+  <div class="card quota-card">
+    <h3>Quota global de l'entreprise</h3>
+    <div class="quota-info">
+      <span>Total : {{ quotaTotal }}</span>
+      <span>Utilisé : {{ quotaUtilise }}</span>
+      <span>Restant : {{ getRestant(quotaTotal, quotaUtilise) }}</span>
+    </div>
+    <div class="progress mt-2">
+      <div 
+        class="progress-bar" 
+        [ngClass]="{
+          'bg-success': pourcentage < 60,
+          'bg-warning': pourcentage >= 60 && pourcentage < 80,
+          'bg-danger': pourcentage >= 80
+        }"
+        role="progressbar"
+        [style.width.%]="pourcentage">
+        {{ pourcentage }}%
+      </div>
+    </div>
+  </div>
+
+  <!-- Quotas par salle/service -->
+  <div class="card quota-card mt-4">
+    <h3>Quotas par salle / service</h3>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Total</th>
+          <th>Utilisé</th>
+          <th>Restant</th>
+          <th>% utilisé</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of quotas">
+          <td>{{ item.nom }}</td>
+          <td>{{ item.total }}</td>
+          <td>{{ item.utilise }}</td>
+          <td>{{ getRestant(item.total, item.utilise) }}</td>
+        <td>
+<span [ngClass]="{
+  'text-success': getPourcentage(item.total, item.utilise) < 60,
+  'text-warning': getPourcentage(item.total, item.utilise) >= 60 && getPourcentage(item.total, item.utilise) < 80,
+  'text-danger': getPourcentage(item.total, item.utilise) >= 80
+}">
+  {{ getPourcentage(item.total, item.utilise) }}%
+</span>
+
+</td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Utilisateurs qui consomment plus -->
+  <div class="card quota-card mt-4">
+    <h3>Utilisateurs dépassant leur quota</h3>
+    <ul>
+      <li *ngFor="let user of usersOverQuota">
+        {{ user.firstname }}  {{ user.lastname}}  ({{ user.utilise }} / {{ user.quota }})
+      </li>
+      <li *ngIf="usersOverQuota.length === 0">Aucun utilisateur ne dépasse son quota.</li>
+    </ul>
+  </div>
+
+  <!-- Salles les plus réservées -->
+  <div class="card quota-card mt-4">
+    <h3>Salles les plus réservées</h3>
+    <ul>
+      <li *ngFor="let salle of sallesPopulaires">
+        {{ salle.nom }} ({{ salle.reservations }} réservations)
+      </li>
+    </ul>
+  </div>
+
+</div>

@@ -1,18 +1,14 @@
-<div class="full-calendar-wrapper">
-<!-- calendar.component.html -->
-<full-calendar [options]="calendarOptions"></full-calendar>
 
-</div>
-<!-- Modal personnalisé -->
-<div class="modal-backdrop" *ngIf="showModal">
-  <div class="modal-content">
-    <h3>Détails de la réservation</h3>
-    <p><strong>Utilisateur :</strong> {{ selectedEvent?.user }}</p>
-    <p><strong>Salle :</strong> {{ selectedEvent?.salle }}</p>
-    <p><strong>Date :</strong> {{ selectedEvent?.start | date: 'fullDate' }}</p>
-    <p><strong>Heure de début :</strong> {{ selectedEvent?.start | date: 'shortTime' }}</p>
-    <p><strong>Heure de fin :</strong> {{ selectedEvent?.end | date: 'shortTime' }}</p>
+<div class="main-container">
+  <div class="left-panel">
+    <!-- Autres composants / menus -->
+  </div>
 
-    <button (click)="showModal = false">Fermer</button>
+  <div class="calendar-wrapper">
+    <full-calendar [options]="calendarOptions"></full-calendar>
+  </div>
+
+  <div class="right-panel">
+    <!-- Autres composants / widgets -->
   </div>
 </div>

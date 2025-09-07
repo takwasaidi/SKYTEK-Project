@@ -21,5 +21,17 @@ public class Quota {
     private Integer quotaUtilise;
     @OneToOne(mappedBy = "quota")
     private Entreprise entreprise;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Quota)) return false;
+        Quota q = (Quota) o;
+        return id != null && id.equals(q.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 
 }

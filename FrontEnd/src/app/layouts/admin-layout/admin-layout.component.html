@@ -1,0 +1,116 @@
+<div class="admin-layout">
+  <aside class="sidebar">
+    <nav class="admin-navbar">
+  <div class="navbar-logo centered-logo">
+    <img src="assets/images/logo.png" alt="Logo" class="logo-img" />
+    <span class="logo-text"></span> <!-- remove 'Admin' -->
+  </div>
+   </nav>
+
+    <nav class="sidebar-menu">
+  <a routerLink="/utilisateurs" routerLinkActive="active">
+    Utilisateurs
+  </a>
+  <a routerLink="/salles" routerLinkActive="active">
+   Salles
+  </a>
+  <a routerLink="/admin/quota" routerLinkActive="active">
+     Quota
+  </a>
+  <a routerLink="/entreprises" routerLinkActive="active">
+   Entreprises
+  </a>
+  <a routerLink="/equipments" routerLinkActive="active">
+  Équipements
+  </a>
+  <a routerLink="/config-horaire" routerLinkActive="active">
+    Config. Horaire
+  </a>
+  
+  <a routerLink="/admin/reclamations" routerLinkActive="active">
+    Reclamations
+  </a>
+</nav>
+
+  
+  </aside>
+
+<main class="main-content">
+  <header class="admin-header">
+    <div class="header-right">
+      
+   <button class="btn position-relative notification-btn" (click)="toggleNotifications()">
+  <i class="fas fa-bell fa-lg text-dark"></i>
+  <span *ngIf="unreadCount > 0" 
+        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
+    {{ unreadCount }}
+  </span>
+</button>
+      <!-- Profil utilisateur -->
+      <div class="user-info" (click)="toggleMenu()">
+        <i class="fas fa-user-circle"></i>
+        <span class="username">Welcome, {{ userName }}</span>
+        <i class="fas fa-chevron-down arrow-icon"></i>
+        
+        <!-- Dropdown -->
+        <ul class="dropdown-menu" [class.show]="menuOpen">
+          <li class="dropdown-item">
+            <i class="fas fa-user small-icon"></i>
+            <span>Profile</span>
+          </li>
+          <li class="dropdown-item">
+            <i class="fas fa-cog small-icon"></i>
+            <span>Settings</span>
+          </li>
+          <li class="dropdown-item" (click)="logout()">
+            <i class="fas fa-sign-out-alt small-icon"></i>
+            <span>Log out</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </header>
+
+  <section class="admin-content">
+    <router-outlet></router-outlet>
+    <!-- Par exemple, en haut de ta page -->
+<app-notification></app-notification>
+    <!-- <app-toast></app-toast> -->
+  </section>
+</main>
+
+
+</div>
+
+
+<!-- Panneau Notifications : s'affiche seulement si showNotifications=true -->
+<div class="notification-container shadow rounded" *ngIf="showNotifications">
+
+  <!-- En-tête -->
+  <div class="header d-flex align-items-center justify-content-between px-3 py-2 border-bottom">
+    <h5 class="title m-0">Notifications</h5>
+  </div>
+
+  <!-- Contenu -->
+  <div *ngIf="notifications.length === 0" class="empty-state text-center text-muted py-3">
+    Aucune notification
+  </div>
+
+  <ul class="notifications-list list-unstyled m-0 p-2">
+    <li *ngFor="let notif of notifications"
+        class="notification-item d-flex justify-content-between align-items-center p-2 mb-2 rounded border"
+        [class.fw-bold]="!notif.lu"
+        [class.bg-light]="!notif.lu">
+
+      <div>
+        <span class="badge bg-danger me-2" *ngIf="!notif.lu">Nouveau</span>
+        {{ notif.type }} - <strong>{{ notif.entreprise.nom }}</strong>
+      </div>
+
+      <small class="text-muted">{{ notif.dateAlert | date:'short' }}</small>
+    </li>
+  </ul>
+</div>
+
+

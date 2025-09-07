@@ -31,5 +31,18 @@ public class Reservation {
     private User user;
     @ManyToOne
     private Salle salle;
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "id=" + id +
+                ", dateReservation=" + dateReservation +
+                ", heureDebut=" + heureDebut +
+                ", heureFin=" + heureFin +
+                ", estFacturable=" + estFacturable +
+                ", coutTotal=" + coutTotal +
+                ", user=" + (user != null ? user.getEmail() : "null") +
+                ", salle=" + (salle != null ? salle.getNom() : "null") +
+                '}';
+    }
 
 }

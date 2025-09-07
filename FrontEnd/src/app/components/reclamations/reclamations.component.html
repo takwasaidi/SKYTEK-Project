@@ -1,0 +1,124 @@
+<div class="product-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="actions">
+      <button class="btn delete"><i class="fa fa-trash"></i> Supprimer</button>
+    </div>
+    <div class="export">
+      <button class="btn export"><i class="fa fa-download"></i> Export</button>
+    </div>
+  </div>
+
+  <!-- Search & Title -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0" style="margin-top: 45px; color: #334115; font-weight: normal;">
+      Gérer les réclamations
+    </h5>
+    <div class="search-bar-container position-relative">
+      <i class="fas fa-search search-icon"></i>
+      <input
+        type="text"
+        placeholder="Rechercher..."
+        class="form-control search-input"
+        [(ngModel)]="searchTerm"
+        (input)="filterReclamations()"
+      />
+    </div>
+  </div>
+
+  <div class="table-separator"></div>
+
+  <!-- Table Section -->
+  <table class="product-table">
+    <thead>
+      <tr>
+        <th><input type="checkbox" (change)="toggleSelectAll($event)" /></th>
+        <th>Sujet <span class="sort-icons">↑↓</span></th>
+        <th>Description</th>
+        <th>Utilisateur</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let rec of paginatedReclamations">
+        <td><input type="checkbox" [(ngModel)]="rec.selected" /></td>
+        <td>{{ rec.sujet }}</td>
+        <td>{{ rec.description }}</td>
+        <td>{{ rec.user.firstname }} {{ rec.user.lastname }}</td>
+      
+        <td>
+          <span class="badge" [ngClass]="{
+            'bg-warning': rec.statut === 'EN_ATTENTE',
+            'bg-success': rec.statut === 'RESOLUE',
+            'bg-danger': rec.statut === 'ANNULEE'
+          }">
+            {{ rec.statut }}
+          </span>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-download me-1" (click)="viewReclamation(rec)">
+            <i class="bi bi-eye"></i>
+          </button>
+          <button class="btn btn-sm btn-cancel" (click)="cancelReclamation(rec.id)">
+            <i class="bi bi-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <div class="footer-section d-flex justify-content-center align-items-center mt-4 gap-2">
+    <button class="btn btn-primary"
+            style="background-color: #5bc0de; border-color: #5bc0de;"
+            [disabled]="currentPage === 1" (click)="prevPage()">
+      Précédent
+    </button>
+
+    <span class="page-indicator">Page {{ currentPage }} sur {{ totalPages }}</span>
+
+    <button class="btn btn-primary"
+            style="background-color: #5bc0de; border-color: #5bc0de;"
+            [disabled]="currentPage === totalPages" (click)="nextPage()">
+      Suivant
+    </button>
+  </div>
+
+  <div *ngIf="filteredReclamations.length === 0" class="alert alert-info">
+    Aucune réclamation trouvée.
+  </div>
+</div>
+
+<!-- Modal détail -->
+<div class="modal fade" tabindex="-1" [ngClass]="{ 'show d-block': showModal }">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Détail Réclamation</h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body" *ngIf="selectedReclamation">
+        <p><strong>Sujet :</strong> {{ selectedReclamation.sujet }}</p>
+        <p><strong>Description :</strong> {{ selectedReclamation.description }}</p>
+        <p><strong>Utilisateur :</strong> {{ selectedReclamation.user.firstname }} {{ selectedReclamation.user.lastname }}</p>
+        <p><strong>Date :</strong> {{ selectedReclamation.date | date:'dd/MM/yyyy' }}</p>
+        <p><strong>Statut :</strong> {{ selectedReclamation.statut }}</p>
+
+        <div *ngIf="selectedReclamation.fichiers?.length > 0">
+          <h6>Fichiers :</h6>
+          <ul>
+            <li *ngFor="let f of selectedReclamation.fichiers">
+              {{ f.nomFichier }}
+              <button class="btn btn-sm btn-download ms-2" (click)="download(f)">
+                <i class="bi bi-download"></i>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="closeModal()">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>

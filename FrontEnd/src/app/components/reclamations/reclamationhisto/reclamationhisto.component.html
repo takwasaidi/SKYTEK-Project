@@ -1,0 +1,45 @@
+<!-- Welcome Section -->
+<section class="welcome-section position-relative text-center text-white">
+  <div class="background-image"></div>
+  <div class="overlay"></div>
+
+  <div class="content d-flex flex-column justify-content-center align-items-center">
+    <h1 class="main-title">Startup Village - Charguia</h1>
+    <p class="subtitle">L'espace d'innovation dédié à l'e-commerce</p>
+  </div>
+</section>
+
+<div class="reclamations-container">
+  <h2>Liste des réclamations</h2>
+
+  <!-- Liste paginée -->
+  <div *ngFor="let rec of pagedReclamations" class="reclamation-card">
+    <h3>{{ rec.sujet }}</h3>
+    <p>{{ rec.description }}</p>
+    <p><strong>Utilisateur :</strong> {{ rec.user.firstname }} {{ rec.user.lastname }}</p>
+    
+<div *ngFor="let f of rec.fichiers" class="d-flex align-items-center mb-2">
+  <span>{{ f.nomFichier }} ({{ f.typeMime }})</span>
+  
+  <button class="btn btn-sm btn-download" (click)="download(f)">
+    <i class="bi bi-download"></i> 
+  </button>
+
+  <button class="btn btn-sm btn-cancel" (click)="cancelReclamation(rec.id)">
+    <i class="bi bi-trash"></i>
+  </button>
+</div>
+
+
+
+
+
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="page === 1">Précédent</button>
+    <span>Page {{ page }} sur {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="page === totalPages">Suivant</button>
+  </div>
+</div>

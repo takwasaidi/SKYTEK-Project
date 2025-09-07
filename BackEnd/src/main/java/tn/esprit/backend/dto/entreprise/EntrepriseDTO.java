@@ -9,5 +9,5 @@ public class EntrepriseDTO {
     private Integer id;
     private String nom;
     private String email;
-    private Integer quota;
+    private QuotaDTO quota;
 }

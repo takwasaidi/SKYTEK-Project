@@ -29,7 +29,7 @@ credentials: AuthenticationRequest = {};
         } else if (res.accessToken) {
           // Authentification classique
           localStorage.setItem('token', res.accessToken);
-          this.router.navigate(['/welcome']);
+          this.router.navigate(['/salles']);
         }
       },
       error: err => {
@@ -39,17 +39,17 @@ credentials: AuthenticationRequest = {};
     });
   }
 onVerifyMfa() {
-    this.authService.verifyMfaCode(this.emailForMfa, this.mfaCode).subscribe({
-      next: res => {
-        localStorage.setItem('token', res.accessToken!);
-        alert('MFA validé, bienvenue !');
-        this.router.navigate(['/welcome']);
-      },
-      error: err => {
-        alert('Code MFA invalide.');
-        console.error(err);
-      }
-    });
+    // this.authService.verifyMfaCode(this.emailForMfa, this.mfaCode).subscribe({
+    //   next: res => {
+    //     localStorage.setItem('token', res.accessToken!);
+    //     alert('MFA validé, bienvenue !');
+    //     this.router.navigate(['/welcome']);
+    //   },
+    //   error: err => {
+    //     alert('Code MFA invalide.');
+    //     console.error(err);
+    //   }
+    // });
   }
 
 }

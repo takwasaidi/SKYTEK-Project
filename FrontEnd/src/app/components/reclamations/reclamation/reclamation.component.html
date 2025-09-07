@@ -1,0 +1,43 @@
+<!-- Welcome Section -->
+<section class="welcome-section position-relative text-center text-white">
+  <div class="background-image"></div>
+  <div class="overlay"></div>
+
+  <div class="content d-flex flex-column justify-content-center align-items-center">
+    <!-- Tu peux activer le titre si besoin -->
+    <!-- <h1 class="main-title">Startup Village - Charguia</h1>
+    <p class="subtitle">L'espace d'innovation dédié à l'e-commerce</p> -->
+  </div>
+</section>
+<div></div>
+<div></div>
+<br>
+<br>
+<br>
+<section>
+<!-- Reclamation Form -->
+<div class="login-container">
+  <div class="login-card">
+    <h2 class="login-title">Nouvelle Réclamation</h2>
+
+    <form (ngSubmit)="submitReclamation()" class="reclamation-form">
+      <div class="form-group">
+        <label for="sujet">Sujet</label>
+        <input id="sujet" type="text" [(ngModel)]="sujet" name="sujet" required />
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" [(ngModel)]="description" name="description" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="fichiers">Fichiers</label>
+        <input type="file" id="fichiers" (change)="onFileSelected($event)" multiple />
+      </div>
+
+      <button class="btn-primary" type="submit">Envoyer</button>
+    </form>
+  </div>
+</div>
+</section>

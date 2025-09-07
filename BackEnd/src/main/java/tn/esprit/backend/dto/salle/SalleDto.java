@@ -16,6 +16,8 @@ public class SalleDto {
     private Integer capacite;
     private Double tarifHoraire;
     private String emplacement;
+    private String titre;
+    private String description;
     private boolean estDisponible;
     private boolean enMaitenance;
 

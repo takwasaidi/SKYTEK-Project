@@ -61,6 +61,23 @@
       </li>
     </ul>
   </ul>
+  
+  <!-- CONFIGURATION HORAIRE -->
+<ul>
+  <li (click)="toggleHoraireMenu()" style="cursor: pointer;">
+    <i class="fas fa-clock"></i>
+    <span>Configuration Horaire</span>
+    <i class="fas" [ngClass]="{'fa-chevron-down': !horaireMenuOpen, 'fa-chevron-up': horaireMenuOpen}" style="margin-left:auto;"></i>
+  </li>
+
+  <ul *ngIf="horaireMenuOpen" class="submenu">
+    <li routerLink="/config1">
+      <i class="fas fa-calendar-alt"></i><span>Configurer horaires</span>
+    </li>
+  </ul>
+</ul>
+  
+
 </div>
 
 

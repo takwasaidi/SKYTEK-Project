@@ -1,59 +1,158 @@
 <div class="container mt-4">
-  <div class="row">
-    <div *ngFor="let salle of salles" class="col-md-4 mb-4">
-      <div class="card h-100">
-        <div id="carousel{{salle.id}}" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            <div *ngFor="let image of salle.salleImages; let i = index" [ngClass]="{'carousel-item': true, 'active': i === 0}">
-              <img [src]="image.url" class="d-block w-100" alt="Salle image" style="height: 200px; object-fit: cover;">
-            </div>
-          </div>
+  <style>
+    swiper-container::part(pagination-bullet) {
+      background-color: white !important;
+      opacity: 0.5;
+    }
 
-          <!-- Flèches -->
-          <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#carousel' + salle.id" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-          </button>
-          <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#carousel' + salle.id" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-          </button>
-        </div>
+    swiper-container::part(pagination-bullet-active) {
+      background-color: white !important;
+      opacity: 1;
+    }
 
-        <div class="card-body">
-          <h5 class="card-title">{{ salle.nom }}</h5>
-          <p class="card-text">Capacité : {{ salle.capacite }} personnes</p>
-          <button class="btn btn-primary btn-sm" (click)="openDetails(salle)">Voir les détails</button>
+    swiper-container::part(button-prev),
+    swiper-container::part(button-next) {
+      background-color: transparent !important;
+      color: white !important;
+      font-size: 18px !important;
+      width: 20px !important;
+      height: 20px !important;
+      border-radius: 50% !important;
+      box-shadow: none !important;
+    }
+  </style>
+
+  <div class="text-center mb-5">
+    <h2 style="color: #004151; font-weight: bold;">Découvrez nos salles</h2>
+    <p class="lead" style="color: #004151;">Commencez à réserver dès maintenant parmi nos 4 espaces modernes</p>
+  </div>
+
+  <div class="row justify-content-center">
+    <div *ngFor="let salle of salles" class="col-lg-3 col-md-4 col-sm-6 mb-4">
+      <div class="card h-100 shadow-sm">
+        <swiper-container 
+          init="true" 
+          pagination="true" 
+          navigation="true" 
+          loop="true" 
+          style="width: 100%; height: 180px;">
+          <swiper-slide *ngFor="let image of salle.salleImages">
+            <img [src]="image.url" alt="Salle image" style="width: 100%; height: 180px; object-fit: cover;">
+          </swiper-slide>
+        </swiper-container>
+
+        <div class="card-body text-center">
+          <h6 class="card-title mb-2" style="color: #004151;">{{ salle.nom }}</h6>
+          <p class="card-text text-muted mb-3">Capacité : {{ salle.capacite }} personnes</p>
+          <button class="btn btn-sm" style="background-color: #004151; color: white;" (click)="openDetails(salle)">Voir les détails</button>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-
-<!-- Modal de détails -->
-<div class="modal fade show d-block" tabindex="-1" *ngIf="selectedSalle" style="background-color: rgba(0,0,0,0.5);">
+<!-- Modal Détails -->
+<!-- Modale -->
+<div class="modal show d-block" *ngIf="selectedSalle"
+     style="background-color: rgba(0, 0, 0, 0.5); z-index: 1050;">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">{{ selectedSalle.nom }}</h5>
-        <button type="button" class="btn-close" (click)="closeModal()"></button>
-      </div>
-      <div class="modal-body">
-        <p><strong>Capacité :</strong> {{ selectedSalle.capacite }}</p>
-        <p><strong>Tarif :</strong> {{ selectedSalle.tarifHoraire }} TND/h</p>
-        <p><strong>Emplacement :</strong> {{ selectedSalle.emplacement }}</p>
-        <p><strong>Maintenance :</strong> {{ selectedSalle.enMaitenance ? 'Oui' : 'Non' }}</p>
 
-        <!-- Afficher toutes les images -->
-        <div class="row">
-          <div class="col-md-4" *ngFor="let img of selectedSalle.salleImages">
-            <img [src]="img.url" class="img-fluid mb-2" style="height: 200px; object-fit: cover;">
+      <!-- Header -->
+      <div class="modal-header" style="background-color: #f9f9f9;">
+        <h5 class="modal-title" style="color: #004151; margin-left: 250px;" >{{ selectedSalle.nom }}</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body px-4 py-3" style="background-color: #f9f9f9;">
+          <!-- À propos -->
+        <h6 style="color: #004151;">À propos de cette salle</h6>
+        <p class="mb-3" style="color: #004151; font-size: 1.05rem;">
+          Prenez le large en choisissant l’une de nos salles de réunion, où confort et productivité se rencontrent.
+        </p>
+
+        <!-- Séparateur -->
+ <hr style="border-top: 1px solid #d3d3d3;" />
+        <!-- Horaire + Capacité -->
+        <div class="d-flex justify-content-between align-items-center text-center py-3">
+          <!-- Horaire -->
+          <div style="flex: 1;">
+            <i class="bi bi-clock" style="font-size: 2rem; color: #ccc;"></i>
+            <div class="mt-1" style="color: #004151; font-weight: 500;">08:00 à 19:00</div>
+          </div>
+          <div style="width: 1px; height: 50px; background-color: #d3d3d3;"></div>
+          <!-- Capacité -->
+          <div style="flex: 1;">
+            <i class="bi bi-people" style="font-size: 2rem; color: #ccc;"></i>
+            <div class="mt-1" style="color: #004151; font-weight: 500;">
+              {{ selectedSalle.capacite }} personnes
+            </div>
+          </div>
+        </div>
+
+        <!-- Séparateur -->
+      
+        <hr style="border-top: 1px solid #d3d3d3;" />
+
+        <!-- Emplacement + Tarif -->
+        <div class="d-flex justify-content-between align-items-center text-center py-3">
+          <!-- Emplacement -->
+          <div style="flex: 1;">
+            <i class="bi bi-geo-alt" style="font-size: 2rem; color: #ccc;"></i>
+            <div class="mt-1" style="color: #004151; font-weight: 500;">
+              {{ selectedSalle.emplacement }}
+            </div>
+          </div>
+          <div style="width: 1px; height: 50px; background-color: #d3d3d3;"></div>
+          <!-- Tarif -->
+          <div style="flex: 1;">
+            <i class="bi bi-cash-coin" style="font-size: 2rem; color: #ccc;"></i>
+            <div class="mt-1" style="color: #004151; font-weight: 500;">
+              {{ selectedSalle.tarifHoraire }} DT / heure
+            </div>
+          </div>
+        </div>
+
+        <!-- Séparateur -->
+        <hr style="border-top: 1px solid #d3d3d3;" />
+
+        <!-- Équipements -->
+        <div class="mb-3">
+          <strong style="color: #004151;">Équipements disponibles :</strong>
+          <ul class="list-unstyled mt-2">
+            <li *ngFor="let equip of getEquipementsDeLaSalle()">
+              <i class="bi bi-check2-circle text-success"></i> {{ equip.nom }}
+            </li>
+          </ul>
+        </div>
+
+        <!-- Séparateur -->
+        <hr style="border-top: 1px solid #d3d3d3;" />
+
+        <!-- Galerie d'images -->
+        <div class="mb-3">
+          <strong style="color: #004151;">Galerie :</strong>
+          <div class="row mt-2">
+            <div class="col-md-4 mb-3" *ngFor="let img of selectedSalle.salleImages">
+              <img [src]="img.url" alt="Salle Image"
+                   class="img-fluid rounded shadow-sm"
+                   style="height: 180px; width: 100%; object-fit: cover;">
+            </div>
           </div>
         </div>
 
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="closeModal()">Fermer</button>
-      </div>
+
+ <!-- Footer -->
+<div class="modal-footer" style="background-color: #f9f9f9; border-top: 1px solid #dee2e6;">
+  <button type="button"
+          class="btn"
+          style="background-color: #5bc0de; color: white; border: none; margin-right: 270px;">
+    Réserver dés maintenant 
+  </button>
+</div>
+
+
     </div>
   </div>
 </div>

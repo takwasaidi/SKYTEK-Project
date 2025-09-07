@@ -1,31 +1,107 @@
-.full-calendar-wrapper {
-  max-width: 800px;   /* ou une autre largeur souhaitée */
-  margin: 0 auto;       /* centre le calendrier */
-  padding: 20px;
-}
 
-.full-calendar-wrapper full-calendar {
-  width: 100% !important;
-}
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+.main-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
+  gap: 20px; /* espace entre les panels */
 }
 
-.modal-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  width: 400px;
-  max-width: 90%;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+.left-panel, .right-panel {
+  flex: 1; /* s'adapte à l'espace disponible */
 }
+
+/* Conteneur du calendrier */
+.calendar-wrapper {
+   /*flex: 0 0 600px; */ /* largeur fixe pour le calendrier */
+  width: 600px;             /* largeur ajustable */
+  max-width: 100%;
+  margin: 0 auto;           /* centrer horizontalement */
+   padding: 10px; 
+  font-size: 0.8rem;        /* réduire un peu la taille du texte */
+  border: 1px solid #ccc;   /* bordure grise fine */
+  border-radius: 10px;      /* coins arrondis */
+  overflow: hidden;         /* éviter que les éléments débordent */
+  background-color: white;  /* fond blanc */
+}
+/* For FullCalendar elements outside Angular scope */
+::ng-deep .fc {
+  background-color: white !important;
+  font-family: 'Helvetica', sans-serif !important;
+}
+
+/* Weekday headers */
+::ng-deep .fc-col-header-cell {
+  color: black !important;
+  font-weight: 600;
+}
+
+/* Day numbers */
+::ng-deep .fc-daygrid-day-number {
+  color: black !important;
+   text-decoration: none !important; /* supprime le soulignement */
+  font-weight: 500;
+}
+/* Ajuster la taille des cellules pour qu'elles s'adaptent */
+::ng-deep .fc .fc-daygrid-day {
+  min-height: 60px; /* hauteur réduite des jours */
+}
+
+/* Event blocks styling */
+::ng-deep .fc-event {
+  border-radius: 6px !important;
+  font-size: 0.75rem;
+  padding: 2px 4px;
+  color: rgb(0, 0, 0) !important; /* text inside block */
+  
+}
+
+/* Header background blanc et espacement */
+::ng-deep .fc-toolbar {
+  background-color: white !important;
+  padding: 10px 15px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Month title à gauche, gros et gras */
+::ng-deep .fc-toolbar-title {
+  font-size: 1.5rem !important;
+  color: black !important;
+}
+
+/* Tabs month/week/day au centre */
+::ng-deep .fc-toolbar-chunk button {
+  font-size: 0.9rem !important;
+  margin: 0 2px !important;
+  padding: 5px 12px !important;
+  border-radius: 5px !important;
+  background-color: #f8f9fc !important;
+  color: black !important;
+  border: 1px solid #ddd !important;
+}
+
+/* Selected tab styling (month/week/day) */
+::ng-deep .fc-toolbar-chunk button.fc-button-active {
+   background-color: gray!important;
+  color: white !important;
+}
+
+/* Navigation arrows & today button */
+/* Navigation buttons à droite (< > today) */
+::ng-deep .fc-button {
+  font-size: 0.9rem !important;
+  margin-left: 5px !important;
+  background-color: #f8f9fc !important;
+  color: black !important;
+  border: 1px solid #ddd !important;
+  border-radius: 4px !important;
+}
+::ng-deep .fc-button:hover {
+  background-color: #e2e6ea !important;
+}
+
+::ng-deep .fc-col-header-cell-cushion {
+  text-decoration: none !important; /* supprime le soulignement */
+  color: black !important;
+  font-weight: 600;
+}
+
 

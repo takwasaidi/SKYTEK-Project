@@ -28,6 +28,11 @@ sallesMenuOpen = false;
 toggleSallesMenu() {
   this.sallesMenuOpen = !this.sallesMenuOpen;
 }
+horaireMenuOpen: boolean = false;
+
+toggleHoraireMenu() {
+  this.horaireMenuOpen = !this.horaireMenuOpen;
+}
 
 
 }

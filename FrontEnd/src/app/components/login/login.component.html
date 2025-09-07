@@ -10,7 +10,7 @@
       <h2 *ngIf="!mfaRequired">Se connecter</h2>
       <p *ngIf="!mfaRequired" class="sub-text">
         Vous n’avez pas encore de compte ? <a routerLink="/register">Créer un compte</a>
-      </p>
+      </p> 
 
       <form *ngIf="!mfaRequired" (ngSubmit)="onLogin()">
         <label for="username">Nom d'utilisateur ou Email</label>
