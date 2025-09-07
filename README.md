@@ -55,20 +55,31 @@ ng serve
 📂 Backend (Spring Boot – architecture en couches)
 
 BackEnd/
+
 │── src/main/java/com/skytek/gestionreunions/
+
 │   ├── entity/        # Entités JPA (tables de la base)
+
 │   ├── repository/    # Repositories (DAO – accès BD)
+
 │   ├── service/       # Services (logique métier)
+
 │   ├── dto/           # Objets de transfert de données
+
 │   ├── controller/    # API REST
+
 │   ├── config/        # Configurations (sécurité, CORS…)
+
 │   ├── mappers/       # Conversions Entity <-> DTO
+
 │── src/main/resources/
+
 │   ├── application.properties # Configuration BD, serveur…
 
 📂 Frontend (Angular)
 
 FrontEnd/
+
 │── src/app/
 
 │   ├── models/        # Définition des modèles de données
