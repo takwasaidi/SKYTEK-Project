@@ -27,8 +27,10 @@ Angular CLI
 Une base de données MySQL 
 
 ⚙️ Installation et exécution
+
 1️⃣ Backend
-# Aller dans le dossier backend
+
+# Dans le dossier backend
 cd BackEnd
 
 # Installer les dépendances
@@ -38,7 +40,8 @@ mvn clean install
 mvn spring-boot:run
 
 2️⃣ Frontend
-# Aller dans le dossier frontend
+
+# Dans le dossier frontend
 cd FrontEnd
 
 # Installer les dépendances
@@ -48,7 +51,9 @@ npm install
 ng serve
 
 🏗️ Structure du projet
+
 📂 Backend (Spring Boot – architecture en couches)
+
 BackEnd/
 │── src/main/java/com/skytek/gestionreunions/
 │   ├── entity/        # Entités JPA (tables de la base)
@@ -62,6 +67,7 @@ BackEnd/
 │   ├── application.properties # Configuration BD, serveur…
 
 📂 Frontend (Angular)
+
 FrontEnd/
 │── src/app/
 │   ├── models/        # Définition des modèles de données
@@ -71,6 +77,7 @@ FrontEnd/
 │   ├── interceptors/  # Intercepteurs HTTP
 │── angular.json       # Configuration Angular
 │── package.json       # Dépendances frontend
+
 🔐 Sécurité
 
 Authentification via JWT
@@ -82,6 +89,7 @@ Gestion des rôles et permissions côté backend
 Possibilité d’intégrer MFA (Multi-Factor Authentication)
 
 📊 Fonctionnalités principales
+
 👥 Gestion des utilisateurs
 
 Création, modification et suppression de comptes utilisateurs.
